@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "mob-leader:cave_spider_material"
+    },
+    {
+      "item": "mob-leader:cave_spider_material"
+    },
+    {
+      "item": "mob-leader:cave_spider_material"
+    },
+    {
+      "item": "mob-leader:cave_spider_material"
+    },
+    {
+      "item": "minecraft:diamond_boots"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "mob-leader:cave_spider_boots"
+  }
+}

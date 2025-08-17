@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "mob-leader:bogged_material"
+    },
+    {
+      "item": "minecraft:diamond_leggings"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "mob-leader:bogged_leggings"
+  }
+}

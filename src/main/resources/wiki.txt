@@ -1,0 +1,21 @@
+#HOW TO MAKE MOBS OBEY YOU
+1. Make sure they do not target you while taming
+2. Each mob type has a certain item, which can be used to tame them
+3. Equip corresponding full armor set
+
+#TAMING ITEM
+Creeper - Gunpowder
+Skeleton - Arrow
+Wither Skeleton - Coal
+Frozen Skeleton - Slowness Arrow
+Zombie (any type) - Rotten Meal
+
+#MOB ARMOR RECIPE
+Combine Diamond Armor With Corresponding Material
+Example: 5 Creeper Material + Diamond Helmet = Creeper Helmet
+
+#MATERIAL
+Each type of material can be obtained from corresponding hostile entity with 5% chance
+
+#UNIT WEIGHT
+Creeper - 4

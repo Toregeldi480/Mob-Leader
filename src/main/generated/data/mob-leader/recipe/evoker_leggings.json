@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "mob-leader:evoker_material"
+    },
+    {
+      "item": "minecraft:diamond_leggings"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "mob-leader:evoker_leggings"
+  }
+}

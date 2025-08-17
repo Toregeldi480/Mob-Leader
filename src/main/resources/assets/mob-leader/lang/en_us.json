@@ -1,0 +1,70 @@
+{
+  "item.mob-leader.bogged_helmet": "Bogged Helmet",
+  "item.mob-leader.bogged_chestplate": "Bogged Chestplate",
+  "item.mob-leader.bogged_leggings": "Bogged Leggings",
+  "item.mob-leader.bogged_boots": "Bogged Boots",
+  "item.mob-leader.bogged_material": "Bogged Material",
+
+  "item.mob-leader.cave_spider_helmet": "Cave Spider Helmet",
+  "item.mob-leader.cave_spider_chestplate": "Cave Spider Chestplate",
+  "item.mob-leader.cave_spider_leggings": "Cave Spider Leggings",
+  "item.mob-leader.cave_spider_boots": "Cave Spider Boots",
+  "item.mob-leader.cave_spider_material": "Cave Spider Material",
+
+  "item.mob-leader.creeper_helmet": "Creeper Helmet",
+  "item.mob-leader.creeper_chestplate": "Creeper Chestplate",
+  "item.mob-leader.creeper_leggings": "Creeper Leggings",
+  "item.mob-leader.creeper_boots": "Creeper Boots",
+  "item.mob-leader.creeper_material": "Creeper Material",
+
+  "item.mob-leader.drowned_helmet": "Drowned Helmet",
+  "item.mob-leader.drowned_chestplate": "Drowned Chestplate",
+  "item.mob-leader.drowned_leggings": "Drowned Leggings",
+  "item.mob-leader.drowned_boots": "Drowned Boots",
+  "item.mob-leader.drowned_material": "Drowned Material",
+
+  "item.mob-leader.enderman_helmet": "Enderman Helmet",
+  "item.mob-leader.enderman_chestplate": "Enderman Chestplate",
+  "item.mob-leader.enderman_leggings": "Enderman Leggings",
+  "item.mob-leader.enderman_boots": "Enderman Boots",
+  "item.mob-leader.enderman_material": "Enderman Material",
+
+  "item.mob-leader.evoker_helmet": "Evoker Helmet",
+  "item.mob-leader.evoker_chestplate": "Evoker Chestplate",
+  "item.mob-leader.evoker_leggings": "Evoker Leggings",
+  "item.mob-leader.evoker_boots": "Evoker Boots",
+  "item.mob-leader.evoker_material": "Evoker Material",
+
+  "item.mob-leader.husk_helmet": "Husk Helmet",
+  "item.mob-leader.husk_chestplate": "Husk Chestplate",
+  "item.mob-leader.husk_leggings": "Husk Leggings",
+  "item.mob-leader.husk_boots": "Husk Boots",
+  "item.mob-leader.husk_material": "Husk Material",
+
+  "item.mob-leader.skeleton_helmet": "Skeleton Helmet",
+  "item.mob-leader.skeleton_chestplate": "Skeleton Chestplate",
+  "item.mob-leader.skeleton_leggings": "Skeleton Leggings",
+  "item.mob-leader.skeleton_boots": "Skeleton Boots",
+  "item.mob-leader.skeleton_material": "Skeleton Material",
+
+  "item.mob-leader.vindicator_helmet": "Vindicator Helmet",
+  "item.mob-leader.vindicator_chestplate": "Vindicator Chestplate",
+  "item.mob-leader.vindicator_leggings": "Vindicator Leggings",
+  "item.mob-leader.vindicator_boots": "Vindicator Boots",
+  "item.mob-leader.vindicator_material": "Vindicator Material",
+
+  "item.mob-leader.wither_skeleton_helmet": "Wither Skeleton Helmet",
+  "item.mob-leader.wither_skeleton_chestplate": "Wither Skeleton Chestplate",
+  "item.mob-leader.wither_skeleton_leggings": "Wither Skeleton Leggings",
+  "item.mob-leader.wither_skeleton_boots": "Wither Skeleton Boots",
+  "item.mob-leader.wither_skeleton_material": "Wither Skeleton Material",
+
+  "item.mob-leader.zombie_helmet": "Zombie Helmet",
+  "item.mob-leader.zombie_chestplate": "Zombie Chestplate",
+  "item.mob-leader.zombie_leggings": "Zombie Leggings",
+  "item.mob-leader.zombie_boots": "Zombie Boots",
+  "item.mob-leader.zombie_material": "Zombie Material",
+
+  "itemGroup.mob-leader.mob_armor_group": "Mob Armors",
+  "itemGroup.mob-leader.mob_misc_group": "Mob Misc"
+}

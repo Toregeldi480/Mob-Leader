@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_evoker_material": {
+      "conditions": {
+        "items": [
+          {
+            "items": "mob-leader:evoker_material"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "mob-leader:evoker_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_evoker_material"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "mob-leader:evoker_boots"
+    ]
+  }
+}
