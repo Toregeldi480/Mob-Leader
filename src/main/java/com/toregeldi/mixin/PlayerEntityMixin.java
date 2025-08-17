@@ -127,9 +127,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Unique
     private void syncMobEntitiesData() {
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            NbtList uuidList = new NbtList();
-            leadingMobEntities.forEach(uuid -> uuidList.add(NbtHelper.fromUuid(uuid)));
-            ServerPlayNetworking.send(serverPlayer, new LeadingMobEntitiesPayload(uuidList));
+            ServerPlayNetworking.send(serverPlayer, LeadingMobEntitiesPayload.create(leadingMobEntities, player.getWorld()));
         }
     }
 
@@ -161,6 +159,9 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
                     setLeadingMobEntityWeight(0);
                 }
             }
+        }
+        if(player.age % 40 == 0) {
+            syncMobEntitiesData();
         }
     }
 

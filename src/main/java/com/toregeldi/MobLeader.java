@@ -22,6 +22,7 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -61,7 +62,7 @@ public class MobLeader implements ModInitializer {
 				ServerPlayNetworking.send(handler.player, new LeadingMobEntityCapacityPayload(((PlayerEntityAccessor)handler.player).getLeadingMobEntityCapacity())));
 
 		PayloadTypeRegistry.playS2C().register(LeadingMobEntitiesPayload.ID, LeadingMobEntitiesPayload.CODEC);
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncLeadingEntities(handler.player));
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncLeadingMobEntities(handler.player));
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(CommandManager.literal("test_command").executes(context -> {
@@ -71,13 +72,13 @@ public class MobLeader implements ModInitializer {
 		});
 	}
 
-	private static void syncLeadingEntities(ServerPlayerEntity player) {
+	private static void syncLeadingMobEntities(ServerPlayerEntity player) {
 		NbtList list = new NbtList();
-		for(UUID uuid: ((PlayerEntityAccessor)player).getLeadingMobEntities()) {
+		((PlayerEntityAccessor) player).getLeadingMobEntities().forEach(uuid -> {
 			NbtCompound compound = new NbtCompound();
 			compound.putUuid("UUID", uuid);
 			list.add(compound);
-		}
+		});
 
 		ServerPlayNetworking.send(player, new LeadingMobEntitiesPayload(list));
 	}

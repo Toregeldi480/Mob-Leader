@@ -1,6 +1,7 @@
 package com.toregeldi.gui;
 
 import com.toregeldi.MobLeader;
+import com.toregeldi.network.data.LeadingMobEntityData;
 import com.toregeldi.util.PlayerEntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,10 +19,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class PlayerLeadingEntityGUI implements HudRenderCallback {
@@ -40,7 +38,7 @@ public class PlayerLeadingEntityGUI implements HudRenderCallback {
         put(EntityType.ZOMBIE, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "zombie"));
     }};
 
-    private static List<UUID> leadingMobEntities;
+    private static List<LeadingMobEntityData> leadingMobEntities;
     private static int weight = 0;
     private static int capacity = 0;
 
@@ -57,11 +55,11 @@ public class PlayerLeadingEntityGUI implements HudRenderCallback {
 
             drawContext.drawTextWithShadow(client.textRenderer, String.valueOf(weight + "/" + capacity), textX, textY, 0xffffff);
 
-            if(world instanceof ServerWorld serverWorld) {
-                for(UUID uuid: leadingMobEntities) {
-                    MobLeader.LOGGER.info("UUID:" + uuid);
-                    drawContext.drawTextWithShadow(client.textRenderer, String.valueOf(((LivingEntity)serverWorld.getEntity(uuid)).getHealth()), textX + 10, textY, 0xffff0000);
-                }
+            int i = 0;
+
+            for(LeadingMobEntityData leadingMobEntityData: leadingMobEntities) {
+                drawContext.drawTextWithShadow(client.textRenderer, String.valueOf(leadingMobEntityData.health() + "/" + leadingMobEntityData.maxHealth()), drawContext.getScaledWindowWidth() - 40, 10 + i, 0xffff0000);
+                i += 10;
             }
         }
 
@@ -75,7 +73,7 @@ public class PlayerLeadingEntityGUI implements HudRenderCallback {
         capacity = capacityx;
     }
 
-    public static void getLeadingMobEntitiesFromServer(NbtList list) {
-        list.stream().forEach(compound -> leadingMobEntities.add(((NbtCompound)compound).getUuid("UUID")));
+    public static void getLeadingMobEntitiesFromServer(List<LeadingMobEntityData> list) {
+        leadingMobEntities = new ArrayList<>(list);
     }
 }
