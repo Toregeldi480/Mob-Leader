@@ -20,5 +20,8 @@ public interface PlayerEntityAccessor {
 
     int getLeadingMobEntityWeight();
     void setLeadingMobEntityWeight(int weight);
-    void changeLeadingMobEntityWeight(int weight);
+
+    int getLeadingMobEntityWeightUsage();
+    void setLeadingMobEntityWeightUsage(int value);
+    void changeLeadingMobEntityWeightUsage(int value);
 }

@@ -1,9 +1,8 @@
 package com.toregeldi.mixin;
 
-import com.toregeldi.MobLeader;
-import com.toregeldi.network.LeadingMobEntitiesPayload;
-import com.toregeldi.network.LeadingMobEntityCapacityPayload;
-import com.toregeldi.network.LeadingMobEntityWeightPayload;
+import com.toregeldi.network.s2c.LeadingMobEntitiesPayload;
+import com.toregeldi.network.s2c.LeadingMobEntityCapacityPayload;
+import com.toregeldi.network.s2c.LeadingMobEntityWeightUsagePayload;
 import com.toregeldi.util.MobEntityAccessor;
 import com.toregeldi.util.PlayerEntityAccessor;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -13,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -37,7 +35,10 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     private final List<UUID> leadingMobEntities = new ArrayList<>();
 
     @Unique
-    private int leadingMobEntityWeight;
+    private int leadingMobEntityWeight = 0;
+
+    @Unique
+    private int leadingMobEntityWeightUsage = 0;
 
     @Unique
     private int leadingMobEntityCapacity = 40;
@@ -62,21 +63,21 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Override
     public void addLeadingMobEntity(UUID uuid) {
         leadingMobEntities.add(uuid);
-        syncMobEntitiesData();
+        syncMobEntitiesGeneralData();
     }
 
     @Unique
     @Override
     public void removeLeadingMobEntity(UUID uuid) {
         leadingMobEntities.remove(uuid);
-        syncMobEntitiesData();
+        syncMobEntitiesGeneralData();
     }
 
     @Unique
     @Override
     public void clearLeadingMobEntities() {
         leadingMobEntities.clear();
-        syncMobEntitiesData();
+        syncMobEntitiesGeneralData();
     }
 
     @Unique
@@ -101,7 +102,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Unique
     @Override
     public boolean canLeadMobEntity(int weight) {
-        return leadingMobEntityWeight + weight <= leadingMobEntityCapacity;
+        return leadingMobEntityWeightUsage + weight <= leadingMobEntityCapacity;
     }
 
     @Unique
@@ -112,22 +113,34 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
     @Unique
     @Override
-    public void setLeadingMobEntityWeight(int value) {
-        this.leadingMobEntityWeight = value;
-        syncWeightData();
+    public void setLeadingMobEntityWeight(int weight) {
+        this.leadingMobEntityWeight = weight;
     }
 
     @Unique
     @Override
-    public void changeLeadingMobEntityWeight(int value) {
-        this.setLeadingMobEntityWeight(this.leadingMobEntityWeight + value);
-        syncWeightData();
+    public int getLeadingMobEntityWeightUsage() {
+        return this.leadingMobEntityWeightUsage;
     }
 
     @Unique
-    private void syncMobEntitiesData() {
-        if (player instanceof ServerPlayerEntity serverPlayer) {
-            ServerPlayNetworking.send(serverPlayer, LeadingMobEntitiesPayload.create(leadingMobEntities, player.getWorld()));
+    @Override
+    public void setLeadingMobEntityWeightUsage(int value) {
+        this.leadingMobEntityWeightUsage = value;
+        syncWeightUsageData();
+    }
+
+    @Unique
+    @Override
+    public void changeLeadingMobEntityWeightUsage(int value) {
+        this.setLeadingMobEntityWeightUsage(this.leadingMobEntityWeightUsage + value);
+        syncWeightUsageData();
+    }
+
+    @Unique
+    private void syncMobEntitiesGeneralData() {
+        if(player instanceof ServerPlayerEntity serverPlayer) {
+            ServerPlayNetworking.send(serverPlayer, LeadingMobEntitiesPayload.loadMobEntityTypeData(leadingMobEntities, player.getWorld()));
         }
     }
 
@@ -139,9 +152,9 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     }
 
     @Unique
-    public void syncWeightData() {
+    public void syncWeightUsageData() {
         if(player instanceof ServerPlayerEntity serverPlayer) {
-            ServerPlayNetworking.send(serverPlayer, new LeadingMobEntityWeightPayload(this.leadingMobEntityWeight));
+            ServerPlayNetworking.send(serverPlayer, new LeadingMobEntityWeightUsagePayload(this.leadingMobEntityWeightUsage));
         }
     }
 
@@ -151,30 +164,32 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         if(world instanceof ServerWorld serverWorld && !leadingMobEntities.isEmpty()) {
             MobEntity mob = (MobEntity)serverWorld.getEntity(leadingMobEntities.get(0));
             if(mob != null) {
-                if(!checkArmor(((MobEntityAccessor)mob).getMobEntityArmorSet(mob.getType()))) {
+                if(!checkArmor(((MobEntityAccessor)mob).getMobEntityArmorSet())) {
                     for(UUID uuid: leadingMobEntities) {
-                        ((MobEntityAccessor)(serverWorld).getEntity(uuid)).setLeader(null);
+                        if(serverWorld.getEntity(uuid) != null) {
+                            ((MobEntityAccessor)(serverWorld).getEntity(uuid)).setLeader(null);
+                        }
                     }
                     clearLeadingMobEntities();
-                    setLeadingMobEntityWeight(0);
+                    setLeadingMobEntityWeightUsage(0);
                 }
             }
         }
-        if(player.age % 40 == 0) {
-            syncMobEntitiesData();
+        if(player.age % 10 == 0) {
+            syncMobEntitiesGeneralData();
         }
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("LeadingMobEntityWeight", this.leadingMobEntityWeight);
+        nbt.putInt("LeadingMobEntityWeightUsage", this.leadingMobEntityWeightUsage);
         nbt.putInt("LeadingMobEntityCapacity", this.leadingMobEntityCapacity);
         NbtList list = new NbtList();
         for(UUID uuid: leadingMobEntities) {
             NbtCompound compound = new NbtCompound();
             compound.putUuid("UUID", uuid);
             list.add(compound);
-            leadingMobEntities.stream().forEach(uuid1 -> {});
         }
         nbt.put("LeadingMobEntities", list);
     }
@@ -184,12 +199,27 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         if(nbt.contains("LeadingMobEntityWeight")) {
             this.leadingMobEntityWeight = nbt.getInt("LeadingMobEntityWeight");
         }
+        if(nbt.contains("LeadingMobEntityWeightUsage")) {
+            this.leadingMobEntityWeightUsage = nbt.getInt("LeadingMobEntityWeightUsage");
+        }
         if(nbt.contains("LeadingMobEntityCapacity")) {
             this.leadingMobEntityCapacity = nbt.getInt("LeadingMobEntityCapacity");
         }
         if(nbt.contains("LeadingMobEntities")) {
             NbtList list = nbt.getList("LeadingMobEntities", NbtElement.COMPOUND_TYPE);
             list.stream().forEach(compound -> leadingMobEntities.add(((NbtCompound)compound).getUuid("UUID")));
+            for(NbtElement compound: list) {
+                if(player.getWorld() instanceof ServerWorld serverWorld) {
+                    UUID uuid = ((NbtCompound)compound).getUuid("UUID");
+                    MobEntity mob = (MobEntity)serverWorld.getEntity(uuid);
+                    if(mob == null) {
+                        leadingMobEntities.remove(uuid);
+                        changeLeadingMobEntityWeightUsage(-leadingMobEntityWeight);
+                        return;
+                    }
+                    ((MobEntityAccessor)mob).setLeader(player);
+                }
+            }
         }
     }
 }

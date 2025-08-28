@@ -1,79 +1,46 @@
 package com.toregeldi.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.toregeldi.MobLeader;
-import com.toregeldi.network.data.LeadingMobEntityData;
-import com.toregeldi.util.PlayerEntityAccessor;
+import com.toregeldi.item.ModItems;
+import com.toregeldi.network.s2c.data.LeadingMobEntityGeneralData;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 
 import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class PlayerLeadingEntityGUI implements HudRenderCallback {
-    private static final String ICON_DIRECTORY = "textures/gui/sprites/hud/entity/";
-    private static final Map<EntityType, Identifier> MOB_ENTITY_ICON = new HashMap<>() {{
-        put(EntityType.BOGGED, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "bogged"));
-        put(EntityType.CAVE_SPIDER, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "cave_spider"));
-        put(EntityType.CREEPER, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "creeper"));
-        put(EntityType.DROWNED, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "drowned"));
-        put(EntityType.ENDERMAN, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "enderman"));
-        put(EntityType.EVOKER, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "evoker"));
-        put(EntityType.HUSK, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "husk"));
-        put(EntityType.SKELETON, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "skeleton"));
-        put(EntityType.VINDICATOR, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "vindicator"));
-        put(EntityType.WITHER_SKELETON, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "wither_skeleton"));
-        put(EntityType.ZOMBIE, Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + "zombie"));
-    }};
-
-    private static List<LeadingMobEntityData> leadingMobEntities;
-    private static int weight = 0;
+    private static int weightUsage = 0;
     private static int capacity = 0;
 
     @Override
     public void onHudRender(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
         PlayerEntity player = client.player;
-        if(player != null) {
-            World world = player.getWorld();
-            int x = (drawContext.getScaledWindowWidth() / 2);
-            int y = 0;
-            int textX = x - (client.textRenderer.getWidth(String.valueOf(weight)) / 2);
-            int textY = y + 12;
+        if(player != null && (player.getMainHandStack().getItem() == ModItems.MOB_LEADER_STAFF || player.getOffHandStack().getItem() == ModItems.MOB_LEADER_STAFF)) {
+            String weightInfo = String.valueOf(weightUsage + "/" + capacity);
+            int x = drawContext.getScaledWindowWidth() / 2;
+            int textX = x - (client.textRenderer.getWidth(weightInfo) / 2);
+            int textY = 12 + (drawContext.getScaledWindowHeight() / 2);
 
-            drawContext.drawTextWithShadow(client.textRenderer, String.valueOf(weight + "/" + capacity), textX, textY, 0xffffff);
-
-            int i = 0;
-
-            for(LeadingMobEntityData leadingMobEntityData: leadingMobEntities) {
-                drawContext.drawTextWithShadow(client.textRenderer, String.valueOf(leadingMobEntityData.health() + "/" + leadingMobEntityData.maxHealth()), drawContext.getScaledWindowWidth() - 40, 10 + i, 0xffff0000);
-                i += 10;
-            }
+            drawContext.drawTextWithShadow(client.textRenderer, weightInfo, textX, textY, 0xffffff);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+            drawContext.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
-
     }
 
-    public static void getLeadingMobEntityWeightFromServer(int weightx) {
-        weight = weightx;
+    public static void getLeadingMobEntityWeightUsageFromServer(int weightx) {
+        weightUsage = weightx;
     }
 
     public static void getLeadingMobEntityCapacityFromServer(int capacityx) {
         capacity = capacityx;
-    }
-
-    public static void getLeadingMobEntitiesFromServer(List<LeadingMobEntityData> list) {
-        leadingMobEntities = new ArrayList<>(list);
     }
 }

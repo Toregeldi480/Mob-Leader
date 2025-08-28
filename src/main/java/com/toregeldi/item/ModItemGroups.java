@@ -14,6 +14,8 @@ public class ModItemGroups {
             .icon(() -> new ItemStack(ModItems.CREEPER_HELMET))
             .displayName(Text.translatable("itemGroup.mob-leader.mob_armor_group"))
             .entries((context, entries) -> {
+                entries.add(ModItems.MOB_LEADER_STAFF);
+
                 entries.add(ModItems.BOGGED_HELMET);
                 entries.add(ModItems.BOGGED_CHESTPLATE);
                 entries.add(ModItems.BOGGED_LEGGINGS);

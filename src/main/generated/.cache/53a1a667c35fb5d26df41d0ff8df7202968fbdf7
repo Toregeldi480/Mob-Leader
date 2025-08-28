@@ -1,4 +1,4 @@
-// 1.21	2025-08-16T14:09:10.024667191	Mob Leader/MobLeaderRecipeGenerator
+// 1.21	2025-08-21T19:18:09.52678065	Mob Leader/MobLeaderRecipeGenerator
 c32e573298a281360754ec0bc960e81caeb6f201 data/mob-leader/advancement/recipes/combat/enderman_helmet.json
 ad8f5e101e07a023f752055c54905c15316dd153 data/mob-leader/recipe/wither_skeleton_boots.json
 a737931ae7d422a6f49fb28819adf8670800ddc7 data/mob-leader/recipe/vindicator_boots.json
@@ -59,6 +59,7 @@ b989bff109c0a5b83903ab32b9f031e2665b97df data/mob-leader/recipe/creeper_helmet.j
 d370b366fc70816ef532fd802dc2d2a727807890 data/mob-leader/advancement/recipes/combat/skeleton_leggings.json
 ec5dcaf089c0b4dabfd75e68708f385374c81af0 data/mob-leader/recipe/creeper_leggings.json
 0f07ae2ac9428890e8a31c098d818769f6527cc2 data/mob-leader/recipe/vindicator_chestplate.json
+11174e5097268e37d9220a7e17987428590d379a data/mob-leader/recipe/mob_leader_staff.json
 331460ca6081b11d851d0591bc17fc8dd21a31a4 data/mob-leader/recipe/zombie_leggings.json
 812671e8f3e5db1a38cf623086634342bf51d249 data/mob-leader/advancement/recipes/combat/cave_spider_leggings.json
 c24a233fad79c1f0342561d77a707d17fa7b6fc8 data/mob-leader/advancement/recipes/combat/skeleton_boots.json
@@ -66,6 +67,7 @@ c24a233fad79c1f0342561d77a707d17fa7b6fc8 data/mob-leader/advancement/recipes/com
 f60727d4795d7ee0c5fc3b8e327c85faba714321 data/mob-leader/recipe/creeper_boots.json
 5dcd5b648f8ec68340b0965a39b0996469a282f5 data/mob-leader/advancement/recipes/combat/enderman_chestplate.json
 055b82fba0614200998e6345801d98d360dffd87 data/mob-leader/recipe/evoker_helmet.json
+4d2d3f901e2ece11493688e0b6ffc953c1f02e6e data/mob-leader/advancement/recipes/combat/mob_leader_staff.json
 200550e31c3ff4f2ad6a29bef7e0be5a0458281e data/mob-leader/advancement/recipes/combat/cave_spider_chestplate.json
 b4805e74f7e967bef0139ed553908c7fb89faacc data/mob-leader/advancement/recipes/combat/enderman_leggings.json
 441da5a0bb811b4b1b8737859c4a3a4a68c10778 data/mob-leader/advancement/recipes/combat/zombie_leggings.json

@@ -6,8 +6,10 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -102,6 +104,8 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
             itemModelGenerator.registerArmor((ArmorItem) ModItems.ZOMBIE_CHESTPLATE);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.ZOMBIE_HELMET);
             itemModelGenerator.register(ModItems.ZOMBIE_MATERIAL, Models.GENERATED);
+
+            itemModelGenerator.register(ModItems.MOB_LEADER_STAFF, Models.HANDHELD);
         }
     }
 
@@ -123,6 +127,16 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
             createArmorSet(ModItems.VINDICATOR_BOOTS, ModItems.VINDICATOR_LEGGINGS, ModItems.VINDICATOR_CHESTPLATE, ModItems.VINDICATOR_HELMET, ModItems.VINDICATOR_MATERIAL, recipeExporter);
             createArmorSet(ModItems.WITHER_SKELETON_BOOTS, ModItems.WITHER_SKELETON_LEGGINGS, ModItems.WITHER_SKELETON_CHESTPLATE, ModItems.WITHER_SKELETON_HELMET, ModItems.WITHER_SKELETON_MATERIAL, recipeExporter);
             createArmorSet(ModItems.ZOMBIE_BOOTS, ModItems.ZOMBIE_LEGGINGS, ModItems.ZOMBIE_CHESTPLATE, ModItems.ZOMBIE_HELMET, ModItems.ZOMBIE_MATERIAL, recipeExporter);
+
+            ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.MOB_LEADER_STAFF)
+                    .input('x', Items.STICK)
+                    .input('#', Items.DIAMOND)
+                    .input('%', Items.NETHER_STAR)
+                    .pattern(" #%")
+                    .pattern(" x#")
+                    .pattern("x  ")
+                    .criterion(hasItem(Items.NETHER_STAR), conditionsFromItem(Items.NETHER_STAR))
+                    .offerTo(recipeExporter);
         }
 
         private void createArmorSet(Item boots, Item leggings, Item chestplate, Item helmet, Item material, RecipeExporter exporter) {

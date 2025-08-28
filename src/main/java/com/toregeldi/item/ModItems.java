@@ -1,6 +1,7 @@
 package com.toregeldi.item;
 
 import com.toregeldi.MobLeader;
+import com.toregeldi.item.custom.MobLeaderStaffItem;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -74,12 +75,11 @@ public class ModItems {
     public static final Item ZOMBIE_BOOTS = register(new ArmorItem(ModArmorMaterials.ZOMBIE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "zombie_boots");
     public static final Item ZOMBIE_MATERIAL = register(new Item(new Item.Settings()), "zombie_material");
 
+    public static final Item MOB_LEADER_STAFF = register(new MobLeaderStaffItem(new Item.Settings()), "mob_leader_staff");
+
     public static Item register(Item item, String id) {
         Identifier itemID = Identifier.of(MobLeader.MOD_ID, id);
-
-        Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
-
-        return registeredItem;
+        return Registry.register(Registries.ITEM, itemID, item);
     }
 
     public static void initialize() {}

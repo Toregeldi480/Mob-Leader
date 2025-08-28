@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "mob-leader:item/mob_leader_staff"
+  }
+}

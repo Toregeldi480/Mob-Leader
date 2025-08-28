@@ -4,7 +4,11 @@ import com.toregeldi.MobLeader;
 import com.toregeldi.item.ModItems;
 import com.toregeldi.util.MobEntityAccessor;
 import com.toregeldi.util.PlayerEntityAccessor;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Ownable;
+import net.minecraft.entity.Tameable;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -21,6 +25,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -81,6 +87,18 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
     @Unique
     private final MobEntity mob = (MobEntity)(Object)this;
 
+    @Unique
+    private boolean isFollowing = false;
+
+    @Unique
+    private int attackMode = 0;
+
+    @Unique
+    private int navigationMode = 0;
+
+    @Unique
+    private int[] stayPos = new int[4];
+
 //    @Unique
 //    private final SimpleInventory inventory = new SimpleInventory(9);
 
@@ -89,20 +107,59 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Unique
     @Override
-    public Item getMobEntityTamingItem(EntityType type) {
-        return MOB_ENTITY_TAMING_ITEM.get(type);
+    public int[] getStayPos() {
+        return stayPos;
     }
 
     @Unique
     @Override
-    public List<Item> getMobEntityArmorSet(EntityType type) {
-        return MOB_ENTITY_ARMOR_SET.get(type);
+    public void setStayPos(BlockPos blockPos) {
+        stayPos[0] = blockPos.getX();
+        stayPos[1] = blockPos.getY();
+        stayPos[2] = blockPos.getZ();
+        stayPos[3] = 1;
     }
 
     @Unique
     @Override
-    public int getMobEntityWeight(EntityType type) {
-        return MOB_ENTITY_WEIGHT.get(type);
+    public int getAttackMode() {
+        return this.attackMode;
+    }
+
+    @Unique
+    @Override
+    public void setAttackMode(int mode) {
+        this.attackMode = mode;
+    }
+
+    @Unique
+    @Override
+    public int getNavigationMode() {
+        return this.navigationMode;
+    }
+
+    @Unique
+    @Override
+    public void setNavigationMode(int mode) {
+        this.navigationMode = mode;
+    }
+
+    @Unique
+    @Override
+    public Item getMobEntityTamingItem() {
+        return MOB_ENTITY_TAMING_ITEM.get(mob.getType());
+    }
+
+    @Unique
+    @Override
+    public List<Item> getMobEntityArmorSet() {
+        return MOB_ENTITY_ARMOR_SET.get(mob.getType());
+    }
+
+    @Unique
+    @Override
+    public int getMobEntityWeight() {
+        return MOB_ENTITY_WEIGHT.get(mob.getType());
     }
 
     @Unique
@@ -151,6 +208,53 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
         }
     }
 
+    @Unique
+    private void handleNavigationMode() {
+        LivingEntity leader = getLeader();
+        switch(navigationMode) {
+            case 0: // wander
+                break;
+            case 1: // stay
+                if(stayPos[3] == 0) {
+                    if(leader == null) return;
+                    mob.getNavigation().startMovingTo(leader, 1.5f);
+                } else {
+                    mob.getNavigation().startMovingTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                }
+                break;
+            case 2: // follow
+                if(leader == null) return;
+                if(mob.squaredDistanceTo(leader) >= (10 * 10)) {
+                    mob.getNavigation().startMovingTo(leader, 1.5f);
+                    if((mob instanceof EndermanEntity || mob instanceof EndermiteEntity) && mob.squaredDistanceTo(leader) > (32 * 32)) {
+                        double d = mob.getRandom().nextGaussian();
+                        mob.teleport(leader.getX() + d, leader.getY(), leader.getZ() + d, ParticleTypes.ASH.shouldAlwaysSpawn());
+                    }
+                }
+                break;
+        }
+    }
+
+    @Unique
+    private void handleAttackMode() {
+        switch(attackMode) {
+            case 0: // defensive
+                mob.setTarget(mob.getAttacker());
+                break;
+            case 1: // targeted
+                mob.setTarget(getLeader().getAttacking());
+                break;
+            case 2: // aggressive
+                mob.setTarget(mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(LivingEntity.class, this.getSearchBox(16.0f), (livingEntity) -> true), TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ()));
+                break;
+        }
+    }
+
+    @Unique
+    protected Box getSearchBox(double distance) {
+        return this.mob.getBoundingBox().expand(distance, (double)4.0F, distance);
+    }
+
 //    @Unique
 //    private void openInventory(PlayerEntity player) {
 //        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player1) -> new Generic3x3ContainerScreenHandler(syncId, playerInventory, inventory), Text.of("Inventory")));
@@ -174,16 +278,26 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
         ItemStack item = player.getStackInHand(hand);
         PlayerEntityAccessor accessor = (PlayerEntityAccessor)player;
         if(MOB_ENTITY_TAMING_ITEM.get(mob.getType()) == item.getItem()) {
-            if(!mob.getWorld().isClient && accessor.checkArmor(MOB_ENTITY_ARMOR_SET.get(mob.getType())) && getLeader() == null && ((PlayerEntityAccessor) player).canLeadMobEntity(MOB_ENTITY_WEIGHT.get(mob.getType()))) {
+            if(!mob.getWorld().isClient &&
+                    accessor.checkArmor(MOB_ENTITY_ARMOR_SET.get(mob.getType())) &&
+                    getLeader() == null &&
+                    ((PlayerEntityAccessor)player).canLeadMobEntity(MOB_ENTITY_WEIGHT.get(mob.getType())) &&
+                    mob.getTarget() != player
+            ) {
                 accessor.addLeadingMobEntity(mob.getUuid());
-                accessor.changeLeadingMobEntityWeight(MOB_ENTITY_WEIGHT.get(mob.getType()));
+                accessor.setLeadingMobEntityWeight(MOB_ENTITY_WEIGHT.get(mob.getType()));
+                accessor.changeLeadingMobEntityWeightUsage(MOB_ENTITY_WEIGHT.get(mob.getType()));
                 setLeader(player);
-                item.decrementUnlessCreative(1, player);
+                mob.setPersistent();
             }
-            if(isLeader(player)) {
+            else if(isLeader(player)) {
                 mob.heal(1.0f);
+            } else {
+                cir.setReturnValue(ActionResult.FAIL);
             }
+
             showEmoteParticle();
+            item.decrementUnlessCreative(1, player);
             cir.setReturnValue(ActionResult.SUCCESS);
         }
 //        if(!mob.getWorld().isClient && isLeader(player) && player.isSneaking()) {
@@ -195,21 +309,9 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Inject(method = "tick", at = @At("TAIL"), cancellable = true)
     private void tick(CallbackInfo ci) {
-        LivingEntity leader = getLeader();
-        if(leader != null) {
-            if(mob.squaredDistanceTo(leader) > (10 * 10)) {
-                mob.getNavigation().startMovingTo(leader, 1.0f);
-                if((mob instanceof EndermanEntity || mob instanceof EndermiteEntity) && mob.squaredDistanceTo(leader) > (32 * 32)) {
-                    double d = mob.getRandom().nextGaussian();
-                    mob.teleport(leader.getX() + d, leader.getY(), leader.getZ() + d, ParticleTypes.ASH.shouldAlwaysSpawn());
-                }
-            }
-            if(leader.getAttacking() != null) {
-                mob.setTarget(leader.getAttacking());
-            }
-            if(leader.getAttacker() != null && leader.getAttacker().isAlive()) {
-                mob.setTarget(leader.getAttacker());
-            }
+        if(getLeader() != null) {
+            handleNavigationMode();
+            handleAttackMode();
         }
     }
 
@@ -225,26 +327,35 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"), cancellable = true)
     private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (this.getLeaderUuid() != null) {
+        if(this.getLeaderUuid() != null) {
             nbt.putUuid("Leader", this.getLeaderUuid());
         }
+        nbt.putInt("AttackMode", this.attackMode);
+        nbt.putInt("NavigationMode", this.navigationMode);
+        nbt.putIntArray("StayPos", this.stayPos);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"), cancellable = true)
     private void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         UUID uuid;
-        if (nbt.containsUuid("Leader")) {
+        if(nbt.containsUuid("Leader")) {
             uuid = nbt.getUuid("Leader");
         } else {
             String string = nbt.getString("Leader");
             uuid = ServerConfigHandler.getPlayerUuidByName(mob.getServer(), string);
         }
+        if(uuid != null) {
+            this.setLeaderUuid(uuid);
+        }
 
-        if (uuid != null) {
-            try {
-                this.setLeaderUuid(uuid);
-            } catch (Throwable var4) {
-            }
+        if(nbt.contains("AttackMode")) {
+            this.setAttackMode(nbt.getInt("AttackMode"));
+        }
+        if(nbt.contains("NavigationMode")) {
+            this.setNavigationMode(nbt.getInt("NavigationMode"));
+        }
+        if(nbt.contains("StayPos")) {
+            this.stayPos = nbt.getIntArray("StayPos");
         }
     }
 }

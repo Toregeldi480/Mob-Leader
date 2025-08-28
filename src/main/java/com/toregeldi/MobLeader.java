@@ -2,18 +2,21 @@ package com.toregeldi;
 
 import com.toregeldi.item.ModItemGroups;
 import com.toregeldi.item.ModItems;
-import com.toregeldi.network.LeadingMobEntitiesPayload;
-import com.toregeldi.network.LeadingMobEntityCapacityPayload;
-import com.toregeldi.network.LeadingMobEntityWeightPayload;
+import com.toregeldi.network.c2s.LeadingMobEntityAttackModePayload;
+import com.toregeldi.network.c2s.LeadingMobEntityNavigationModePayload;
+import com.toregeldi.network.s2c.LeadingMobEntitiesPayload;
+import com.toregeldi.network.s2c.LeadingMobEntityCapacityPayload;
+import com.toregeldi.network.s2c.LeadingMobEntityWeightUsagePayload;
+import com.toregeldi.util.MobEntityAccessor;
 import com.toregeldi.util.PlayerEntityAccessor;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
@@ -22,15 +25,11 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.server.world.ServerWorld;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.UUID;
 
 public class MobLeader implements ModInitializer {
 	public static final String MOD_ID = "mob-leader";
@@ -53,34 +52,42 @@ public class MobLeader implements ModInitializer {
 		addMaterialToLootTable(EntityType.WITHER_SKELETON, ModItems.WITHER_SKELETON_MATERIAL);
 		addMaterialToLootTable(EntityType.ZOMBIE, ModItems.ZOMBIE_MATERIAL);
 
-		PayloadTypeRegistry.playS2C().register(LeadingMobEntityWeightPayload.ID, LeadingMobEntityWeightPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(LeadingMobEntityWeightUsagePayload.ID, LeadingMobEntityWeightUsagePayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) ->
-				ServerPlayNetworking.send(handler.player, new LeadingMobEntityWeightPayload(((PlayerEntityAccessor)handler.player).getLeadingMobEntityWeight())));
+				ServerPlayNetworking.send(handler.player, new LeadingMobEntityWeightUsagePayload(((PlayerEntityAccessor)handler.player).getLeadingMobEntityWeightUsage())));
 
 		PayloadTypeRegistry.playS2C().register(LeadingMobEntityCapacityPayload.ID, LeadingMobEntityCapacityPayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) ->
 				ServerPlayNetworking.send(handler.player, new LeadingMobEntityCapacityPayload(((PlayerEntityAccessor)handler.player).getLeadingMobEntityCapacity())));
 
 		PayloadTypeRegistry.playS2C().register(LeadingMobEntitiesPayload.ID, LeadingMobEntitiesPayload.CODEC);
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncLeadingMobEntities(handler.player));
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncLeadingMobEntitiesGeneralData(handler.player));
 
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			dispatcher.register(CommandManager.literal("test_command").executes(context -> {
-				context.getSource().sendFeedback(() -> Text.literal("Called /test_command."), false);
-				return 1;
-			}));
-		});
+		PayloadTypeRegistry.playC2S().register(LeadingMobEntityNavigationModePayload.ID, LeadingMobEntityNavigationModePayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(LeadingMobEntityAttackModePayload.ID, LeadingMobEntityAttackModePayload.CODEC);
 	}
 
-	private static void syncLeadingMobEntities(ServerPlayerEntity player) {
+	private static void syncLeadingMobEntitiesGeneralData(ServerPlayerEntity player) {
 		NbtList list = new NbtList();
-		((PlayerEntityAccessor) player).getLeadingMobEntities().forEach(uuid -> {
+		((PlayerEntityAccessor)player).getLeadingMobEntities().forEach(uuid -> {
 			NbtCompound compound = new NbtCompound();
 			compound.putUuid("UUID", uuid);
+			if(((ServerWorld)player.getWorld()).getEntity(uuid) instanceof LivingEntity livingEntity) {
+				MobEntityAccessor accessor = (MobEntityAccessor)(MobEntity)livingEntity;
+				compound.putString("EntityType", livingEntity.getType().toString());
+				compound.putFloat("Health", livingEntity.getHealth());
+				compound.putFloat("MaxHealth", livingEntity.getMaxHealth());
+				compound.putInt("AttackMode", accessor.getAttackMode());
+				compound.putInt("NavigationMode", accessor.getNavigationMode());
+				compound.putDouble("PosX", Math.floor(livingEntity.getPos().x));
+				compound.putDouble("PosY", Math.floor(livingEntity.getPos().y));
+				compound.putDouble("PosZ", Math.floor(livingEntity.getPos().z));
+			}
 			list.add(compound);
 		});
 
 		ServerPlayNetworking.send(player, new LeadingMobEntitiesPayload(list));
+		ServerPlayNetworking.send(player, LeadingMobEntitiesPayload.loadMobEntityTypeData(((PlayerEntityAccessor) player).getLeadingMobEntities(), player.getWorld()));
 	}
 
 	private static void addMaterialToLootTable(EntityType entityType, Item material) {

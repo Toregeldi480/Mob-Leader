@@ -1,4 +1,4 @@
-package com.toregeldi.network;
+package com.toregeldi.network.s2c;
 
 import com.toregeldi.MobLeader;
 import net.minecraft.network.RegistryByteBuf;
