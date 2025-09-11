@@ -37,17 +37,41 @@
   "item.mob-leader.evoker_boots": "Evoker Boots",
   "item.mob-leader.evoker_material": "Evoker Material",
 
+  "item.mob-leader.ghast_helmet": "Ghast Helmet",
+  "item.mob-leader.ghast_chestplate": "Ghast Chestplate",
+  "item.mob-leader.ghast_leggings": "Ghast Leggings",
+  "item.mob-leader.ghast_boots": "Ghast Boots",
+  "item.mob-leader.ghast_material": "Ghast Material",
+
   "item.mob-leader.husk_helmet": "Husk Helmet",
   "item.mob-leader.husk_chestplate": "Husk Chestplate",
   "item.mob-leader.husk_leggings": "Husk Leggings",
   "item.mob-leader.husk_boots": "Husk Boots",
   "item.mob-leader.husk_material": "Husk Material",
 
+  "item.mob-leader.pillager_helmet": "Pillager Helmet",
+  "item.mob-leader.pillager_chestplate": "Pillager Chestplate",
+  "item.mob-leader.pillager_leggings": "Pillager Leggings",
+  "item.mob-leader.pillager_boots": "Pillager Boots",
+  "item.mob-leader.pillager_material": "Pillager Material",
+
   "item.mob-leader.skeleton_helmet": "Skeleton Helmet",
   "item.mob-leader.skeleton_chestplate": "Skeleton Chestplate",
   "item.mob-leader.skeleton_leggings": "Skeleton Leggings",
   "item.mob-leader.skeleton_boots": "Skeleton Boots",
   "item.mob-leader.skeleton_material": "Skeleton Material",
+
+  "item.mob-leader.slime_helmet": "Slime Helmet",
+  "item.mob-leader.slime_chestplate": "Slime Chestplate",
+  "item.mob-leader.slime_leggings": "Slime Leggings",
+  "item.mob-leader.slime_boots": "Slime Boots",
+  "item.mob-leader.slime_material": "Slime Material",
+
+  "item.mob-leader.stray_helmet": "Stray Helmet",
+  "item.mob-leader.stray_chestplate": "Stray Chestplate",
+  "item.mob-leader.stray_leggings": "Stray Leggings",
+  "item.mob-leader.stray_boots": "Stray Boots",
+  "item.mob-leader.stray_material": "Stray Material",
 
   "item.mob-leader.vindicator_helmet": "Vindicator Helmet",
   "item.mob-leader.vindicator_chestplate": "Vindicator Chestplate",

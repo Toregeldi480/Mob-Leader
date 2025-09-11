@@ -45,17 +45,41 @@ public class ModItems {
     public static final Item EVOKER_BOOTS = register(new ArmorItem(ModArmorMaterials.EVOKER, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "evoker_boots");
     public static final Item EVOKER_MATERIAL = register(new Item(new Item.Settings()), "evoker_material");
 
+    public static final Item GHAST_HELMET = register(new ArmorItem(ModArmorMaterials.GHAST, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "ghast_helmet");
+    public static final Item GHAST_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.GHAST, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "ghast_chestplate");
+    public static final Item GHAST_LEGGINGS = register(new ArmorItem(ModArmorMaterials.GHAST, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "ghast_leggings");
+    public static final Item GHAST_BOOTS = register(new ArmorItem(ModArmorMaterials.GHAST, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "ghast_boots");
+    public static final Item GHAST_MATERIAL = register(new Item(new Item.Settings()), "ghast_material");
+
     public static final Item HUSK_HELMET = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "husk_helmet");
     public static final Item HUSK_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "husk_chestplate");
     public static final Item HUSK_LEGGINGS = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "husk_leggings");
     public static final Item HUSK_BOOTS = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "husk_boots");
     public static final Item HUSK_MATERIAL = register(new Item(new Item.Settings()), "husk_material");
 
+    public static final Item PILLAGER_HELMET = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "pillager_helmet");
+    public static final Item PILLAGER_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "pillager_chestplate");
+    public static final Item PILLAGER_LEGGINGS = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "pillager_leggings");
+    public static final Item PILLAGER_BOOTS = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "pillager_boots");
+    public static final Item PILLAGER_MATERIAL = register(new Item(new Item.Settings()), "pillager_material");
+
     public static final Item SKELETON_HELMET = register(new ArmorItem(ModArmorMaterials.SKELETON, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "skeleton_helmet");
     public static final Item SKELETON_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.SKELETON, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "skeleton_chestplate");
     public static final Item SKELETON_LEGGINGS = register(new ArmorItem(ModArmorMaterials.SKELETON, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "skeleton_leggings");
     public static final Item SKELETON_BOOTS = register(new ArmorItem(ModArmorMaterials.SKELETON, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "skeleton_boots");
     public static final Item SKELETON_MATERIAL = register(new Item(new Item.Settings()), "skeleton_material");
+
+    public static final Item SLIME_HELMET = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "slime_helmet");
+    public static final Item SLIME_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "slime_chestplate");
+    public static final Item SLIME_LEGGINGS = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "slime_leggings");
+    public static final Item SLIME_BOOTS = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "slime_boots");
+    public static final Item SLIME_MATERIAL = register(new Item(new Item.Settings()), "slime_material");
+
+    public static final Item STRAY_HELMET = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "stray_helmet");
+    public static final Item STRAY_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "stray_chestplate");
+    public static final Item STRAY_LEGGINGS = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "stray_leggings");
+    public static final Item STRAY_BOOTS = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "stray_boots");
+    public static final Item STRAY_MATERIAL = register(new Item(new Item.Settings()), "stray_material");
 
     public static final Item VINDICATOR_HELMET = register(new ArmorItem(ModArmorMaterials.VINDICATOR, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "vindicator_helmet");
     public static final Item VINDICATOR_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.VINDICATOR, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "vindicator_chestplate");

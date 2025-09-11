@@ -25,7 +25,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.BOGGED_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -38,7 +38,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.CAVE_SPIDER_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -51,7 +51,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.CREEPER_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -64,7 +64,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.DROWNED_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -77,7 +77,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.ENDERMAN_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -90,7 +90,20 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.EVOKER_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> GHAST = registerMaterial("ghast",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.GHAST_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -103,7 +116,20 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.HUSK_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> PILLAGER = registerMaterial("pillager",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.PILLAGER_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -116,7 +142,33 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.SKELETON_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> SLIME = registerMaterial("slime",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.SLIME_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> STRAY = registerMaterial("stray",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.STRAY_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -129,7 +181,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.VINDICATOR_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -142,7 +194,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.WITHER_SKELETON_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -155,7 +207,7 @@ public class ModArmorMaterials {
             ),
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BOGGED_HELMET),
+            () -> Ingredient.ofItems(ModItems.ZOMBIE_MATERIAL),
             0.0F,
             0.0F,
             false);

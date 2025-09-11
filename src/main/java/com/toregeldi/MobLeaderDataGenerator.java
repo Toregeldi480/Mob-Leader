@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -75,17 +74,41 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
             itemModelGenerator.registerArmor((ArmorItem) ModItems.EVOKER_HELMET);
             itemModelGenerator.register(ModItems.EVOKER_MATERIAL, Models.GENERATED);
 
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.GHAST_BOOTS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.GHAST_LEGGINGS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.GHAST_CHESTPLATE);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.GHAST_HELMET);
+            itemModelGenerator.register(ModItems.GHAST_MATERIAL, Models.GENERATED);
+
             itemModelGenerator.registerArmor((ArmorItem) ModItems.HUSK_BOOTS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.HUSK_LEGGINGS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.HUSK_CHESTPLATE);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.HUSK_HELMET);
             itemModelGenerator.register(ModItems.HUSK_MATERIAL, Models.GENERATED);
 
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.PILLAGER_BOOTS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.PILLAGER_LEGGINGS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.PILLAGER_CHESTPLATE);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.PILLAGER_HELMET);
+            itemModelGenerator.register(ModItems.PILLAGER_MATERIAL, Models.GENERATED);
+
             itemModelGenerator.registerArmor((ArmorItem) ModItems.SKELETON_BOOTS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.SKELETON_LEGGINGS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.SKELETON_CHESTPLATE);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.SKELETON_HELMET);
             itemModelGenerator.register(ModItems.SKELETON_MATERIAL, Models.GENERATED);
+
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.SLIME_BOOTS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.SLIME_LEGGINGS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.SLIME_CHESTPLATE);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.SLIME_HELMET);
+            itemModelGenerator.register(ModItems.SLIME_MATERIAL, Models.GENERATED);
+
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.STRAY_BOOTS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.STRAY_LEGGINGS);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.STRAY_CHESTPLATE);
+            itemModelGenerator.registerArmor((ArmorItem) ModItems.STRAY_HELMET);
+            itemModelGenerator.register(ModItems.STRAY_MATERIAL, Models.GENERATED);
 
             itemModelGenerator.registerArmor((ArmorItem) ModItems.VINDICATOR_BOOTS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.VINDICATOR_LEGGINGS);
@@ -122,8 +145,12 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
             createArmorSet(ModItems.DROWNED_BOOTS, ModItems.DROWNED_LEGGINGS, ModItems.DROWNED_CHESTPLATE, ModItems.DROWNED_HELMET, ModItems.DROWNED_MATERIAL, recipeExporter);
             createArmorSet(ModItems.ENDERMAN_BOOTS, ModItems.ENDERMAN_LEGGINGS, ModItems.ENDERMAN_CHESTPLATE, ModItems.ENDERMAN_HELMET, ModItems.ENDERMAN_MATERIAL, recipeExporter);
             createArmorSet(ModItems.EVOKER_BOOTS, ModItems.EVOKER_LEGGINGS, ModItems.EVOKER_CHESTPLATE, ModItems.EVOKER_HELMET, ModItems.EVOKER_MATERIAL, recipeExporter);
+            createArmorSet(ModItems.GHAST_BOOTS, ModItems.GHAST_LEGGINGS, ModItems.GHAST_CHESTPLATE, ModItems.GHAST_HELMET, ModItems.GHAST_MATERIAL, recipeExporter);
             createArmorSet(ModItems.HUSK_BOOTS, ModItems.HUSK_LEGGINGS, ModItems.HUSK_CHESTPLATE, ModItems.HUSK_HELMET, ModItems.HUSK_MATERIAL, recipeExporter);
+            createArmorSet(ModItems.PILLAGER_BOOTS, ModItems.PILLAGER_LEGGINGS, ModItems.PILLAGER_CHESTPLATE, ModItems.PILLAGER_HELMET, ModItems.PILLAGER_MATERIAL, recipeExporter);
             createArmorSet(ModItems.SKELETON_BOOTS, ModItems.SKELETON_LEGGINGS, ModItems.SKELETON_CHESTPLATE, ModItems.SKELETON_HELMET, ModItems.SKELETON_MATERIAL, recipeExporter);
+            createArmorSet(ModItems.SLIME_BOOTS, ModItems.SLIME_LEGGINGS, ModItems.SLIME_CHESTPLATE, ModItems.SLIME_HELMET, ModItems.SLIME_MATERIAL, recipeExporter);
+            createArmorSet(ModItems.STRAY_BOOTS, ModItems.STRAY_LEGGINGS, ModItems.STRAY_CHESTPLATE, ModItems.STRAY_HELMET, ModItems.STRAY_MATERIAL, recipeExporter);
             createArmorSet(ModItems.VINDICATOR_BOOTS, ModItems.VINDICATOR_LEGGINGS, ModItems.VINDICATOR_CHESTPLATE, ModItems.VINDICATOR_HELMET, ModItems.VINDICATOR_MATERIAL, recipeExporter);
             createArmorSet(ModItems.WITHER_SKELETON_BOOTS, ModItems.WITHER_SKELETON_LEGGINGS, ModItems.WITHER_SKELETON_CHESTPLATE, ModItems.WITHER_SKELETON_HELMET, ModItems.WITHER_SKELETON_MATERIAL, recipeExporter);
             createArmorSet(ModItems.ZOMBIE_BOOTS, ModItems.ZOMBIE_LEGGINGS, ModItems.ZOMBIE_CHESTPLATE, ModItems.ZOMBIE_HELMET, ModItems.ZOMBIE_MATERIAL, recipeExporter);

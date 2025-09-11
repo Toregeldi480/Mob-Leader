@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-    @Inject(method = "remove", at = @At("HEAD"))
+    @Inject(method = "remove", at = @At("HEAD"), cancellable = true)
     private void remove(Entity.RemovalReason removalReason, CallbackInfo ci) {
         if((Object)this instanceof MobEntity mob) {
             LivingEntity leader = ((MobEntityAccessor)mob).getLeader();

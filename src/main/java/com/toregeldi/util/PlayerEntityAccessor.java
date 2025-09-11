@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface PlayerEntityAccessor {
     boolean checkArmor(List<Item> armor);
     List<UUID> getLeadingMobEntities();
-    void addLeadingMobEntity(UUID uuid);
+    void addLeadingMobEntity(UUID uuid, int weight);
     void removeLeadingMobEntity(UUID uuid);
     void clearLeadingMobEntities();
 

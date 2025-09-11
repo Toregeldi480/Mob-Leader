@@ -46,15 +46,35 @@ public class ModItemGroups {
                 entries.add(ModItems.EVOKER_LEGGINGS);
                 entries.add(ModItems.EVOKER_BOOTS);
 
+                entries.add(ModItems.GHAST_HELMET);
+                entries.add(ModItems.GHAST_CHESTPLATE);
+                entries.add(ModItems.GHAST_LEGGINGS);
+                entries.add(ModItems.GHAST_BOOTS);
+
                 entries.add(ModItems.HUSK_HELMET);
                 entries.add(ModItems.HUSK_CHESTPLATE);
                 entries.add(ModItems.HUSK_LEGGINGS);
                 entries.add(ModItems.HUSK_BOOTS);
 
+                entries.add(ModItems.PILLAGER_HELMET);
+                entries.add(ModItems.PILLAGER_CHESTPLATE);
+                entries.add(ModItems.PILLAGER_LEGGINGS);
+                entries.add(ModItems.PILLAGER_BOOTS);
+
                 entries.add(ModItems.SKELETON_HELMET);
                 entries.add(ModItems.SKELETON_CHESTPLATE);
                 entries.add(ModItems.SKELETON_LEGGINGS);
                 entries.add(ModItems.SKELETON_BOOTS);
+
+                entries.add(ModItems.SLIME_HELMET);
+                entries.add(ModItems.SLIME_CHESTPLATE);
+                entries.add(ModItems.SLIME_LEGGINGS);
+                entries.add(ModItems.SLIME_BOOTS);
+
+                entries.add(ModItems.STRAY_HELMET);
+                entries.add(ModItems.STRAY_CHESTPLATE);
+                entries.add(ModItems.STRAY_LEGGINGS);
+                entries.add(ModItems.STRAY_BOOTS);
 
                 entries.add(ModItems.VINDICATOR_HELMET);
                 entries.add(ModItems.VINDICATOR_CHESTPLATE);
@@ -82,8 +102,12 @@ public class ModItemGroups {
                 entries.add(ModItems.DROWNED_MATERIAL);
                 entries.add(ModItems.ENDERMAN_MATERIAL);
                 entries.add(ModItems.EVOKER_MATERIAL);
+                entries.add(ModItems.GHAST_MATERIAL);
                 entries.add(ModItems.HUSK_MATERIAL);
+                entries.add(ModItems.PILLAGER_MATERIAL);
                 entries.add(ModItems.SKELETON_MATERIAL);
+                entries.add(ModItems.SLIME_MATERIAL);
+                entries.add(ModItems.STRAY_MATERIAL);
                 entries.add(ModItems.VINDICATOR_MATERIAL);
                 entries.add(ModItems.WITHER_SKELETON_MATERIAL);
                 entries.add(ModItems.ZOMBIE_MATERIAL);

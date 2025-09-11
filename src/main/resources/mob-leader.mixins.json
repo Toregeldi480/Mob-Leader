@@ -5,7 +5,8 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"MobEntityMixin",
-		"PlayerEntityMixin"
+		"PlayerEntityMixin",
+		"SlimeEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

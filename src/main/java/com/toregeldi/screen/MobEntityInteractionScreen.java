@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -20,7 +19,6 @@ import java.util.List;
 public class MobEntityInteractionScreen extends Screen {
     private final String ICON_DIRECTORY = "textures/gui/";
     private final PlayerEntity player;
-    private TextFieldWidget inputPosX;
     private static List<LeadingMobEntityGeneralData> leadingMobEntities;
 
     public MobEntityInteractionScreen(PlayerEntity player) {
@@ -31,12 +29,6 @@ public class MobEntityInteractionScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
-//        Text text = isFollowing ? Text.of("Stay") : Text.of("Follow");
-//        this.addDrawableChild(new ButtonWidget.Builder(text, this::onNavigationBehaviour).dimensions(width - 90, this.height / 4 + 72, 80, 20).build());
-
-//        this.inputPosX = new TextFieldWidget(this.textRenderer, this.width / 2 - 152, 80, 80, 20, Text.of("Position X"));
-
     }
 
     @Override

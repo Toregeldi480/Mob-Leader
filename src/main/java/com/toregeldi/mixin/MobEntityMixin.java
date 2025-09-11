@@ -12,9 +12,7 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.EndermiteEntity;
-import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,6 +25,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -47,10 +46,17 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
         put(EntityType.DROWNED, Items.ROTTEN_FLESH);
         put(EntityType.ENDERMAN, Items.ENDER_PEARL);
         put(EntityType.EVOKER, Items.EMERALD);
+        put(EntityType.GHAST, Items.GHAST_TEAR);
         put(EntityType.HUSK, Items.ROTTEN_FLESH);
+        put(EntityType.PIGLIN, Items.GOLD_INGOT);
+        put(EntityType.PIGLIN_BRUTE, Items.GOLD_BLOCK);
+        put(EntityType.PILLAGER, Items.EMERALD);
         put(EntityType.SKELETON, Items.ARROW);
+        put(EntityType.SLIME, Items.SLIME_BALL);
+        put(EntityType.STRAY, Items.ARROW);
         put(EntityType.VINDICATOR, Items.EMERALD);
         put(EntityType.WITHER_SKELETON, Items.COAL);
+        put(EntityType.ZOGLIN, Items.COOKED_PORKCHOP);
         put(EntityType.ZOMBIE, Items.ROTTEN_FLESH);
     }};
 
@@ -62,33 +68,43 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
         put(EntityType.DROWNED, List.of(ModItems.DROWNED_HELMET, ModItems.DROWNED_CHESTPLATE, ModItems.DROWNED_LEGGINGS, ModItems.DROWNED_BOOTS));
         put(EntityType.ENDERMAN, List.of(ModItems.ENDERMAN_HELMET, ModItems.ENDERMAN_CHESTPLATE, ModItems.ENDERMAN_LEGGINGS, ModItems.ENDERMAN_BOOTS));
         put(EntityType.EVOKER, List.of(ModItems.EVOKER_HELMET, ModItems.EVOKER_CHESTPLATE, ModItems.EVOKER_LEGGINGS, ModItems.EVOKER_BOOTS));
+        put(EntityType.GHAST, List.of(ModItems.GHAST_HELMET, ModItems.GHAST_CHESTPLATE, ModItems.GHAST_LEGGINGS, ModItems.GHAST_BOOTS));
         put(EntityType.HUSK, List.of(ModItems.HUSK_HELMET, ModItems.HUSK_CHESTPLATE, ModItems.HUSK_LEGGINGS, ModItems.HUSK_BOOTS));
+        put(EntityType.PIGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
+        put(EntityType.PIGLIN_BRUTE, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
+        put(EntityType.PILLAGER, List.of(ModItems.PILLAGER_HELMET, ModItems.PILLAGER_CHESTPLATE, ModItems.PILLAGER_LEGGINGS, ModItems.PILLAGER_BOOTS));
         put(EntityType.SKELETON, List.of(ModItems.SKELETON_HELMET, ModItems.SKELETON_CHESTPLATE, ModItems.SKELETON_LEGGINGS, ModItems.SKELETON_BOOTS));
+        put(EntityType.SLIME, List.of(ModItems.SLIME_HELMET, ModItems.SLIME_CHESTPLATE, ModItems.SLIME_LEGGINGS, ModItems.SLIME_BOOTS));
+        put(EntityType.STRAY, List.of(ModItems.STRAY_HELMET, ModItems.STRAY_CHESTPLATE, ModItems.STRAY_LEGGINGS, ModItems.STRAY_BOOTS));
         put(EntityType.VINDICATOR, List.of(ModItems.VINDICATOR_HELMET, ModItems.VINDICATOR_CHESTPLATE, ModItems.VINDICATOR_LEGGINGS, ModItems.VINDICATOR_BOOTS));
         put(EntityType.WITHER_SKELETON, List.of(ModItems.WITHER_SKELETON_HELMET, ModItems.WITHER_SKELETON_CHESTPLATE, ModItems.WITHER_SKELETON_LEGGINGS, ModItems.WITHER_SKELETON_BOOTS));
+        put(EntityType.ZOGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
         put(EntityType.ZOMBIE, List.of(ModItems.ZOMBIE_HELMET, ModItems.ZOMBIE_CHESTPLATE, ModItems.ZOMBIE_LEGGINGS, ModItems.ZOMBIE_BOOTS));
     }};
 
     @Unique
     private static final Map<EntityType<?>, Integer> MOB_ENTITY_WEIGHT = new HashMap<>() {{
-        put(EntityType.BOGGED, 3);
-        put(EntityType.CAVE_SPIDER, 3);
+        put(EntityType.BOGGED, 2);
+        put(EntityType.CAVE_SPIDER, 2);
         put(EntityType.CREEPER, 3);
-        put(EntityType.DROWNED, 3);
-        put(EntityType.ENDERMAN, 3);
+        put(EntityType.DROWNED, 2);
+        put(EntityType.ENDERMAN, 4);
         put(EntityType.EVOKER, 3);
-        put(EntityType.HUSK, 3);
-        put(EntityType.SKELETON, 3);
-        put(EntityType.VINDICATOR, 3);
-        put(EntityType.WITHER_SKELETON, 3);
-        put(EntityType.ZOMBIE, 3);
+        put(EntityType.GHAST, 5);
+        put(EntityType.HUSK, 2);
+        put(EntityType.PIGLIN, 3);
+        put(EntityType.PIGLIN_BRUTE, 5);
+        put(EntityType.PILLAGER, 2);
+        put(EntityType.SKELETON, 1);
+        put(EntityType.STRAY, 2);
+        put(EntityType.VINDICATOR, 5);
+        put(EntityType.WITHER_SKELETON, 5);
+        put(EntityType.ZOGLIN, 2);
+        put(EntityType.ZOMBIE, 1);
     }};
 
     @Unique
     private final MobEntity mob = (MobEntity)(Object)this;
-
-    @Unique
-    private boolean isFollowing = false;
 
     @Unique
     private int attackMode = 0;
@@ -159,6 +175,9 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
     @Unique
     @Override
     public int getMobEntityWeight() {
+        if(mob instanceof SlimeEntity slimeEntity) {
+            return slimeEntity.getSize();
+        }
         return MOB_ENTITY_WEIGHT.get(mob.getType());
     }
 
@@ -215,17 +234,31 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
             case 0: // wander
                 break;
             case 1: // stay
-                if(stayPos[3] == 0) {
-                    if(leader == null) return;
-                    mob.getNavigation().startMovingTo(leader, 1.5f);
+                if(stayPos[3] == 1 && mob.squaredDistanceTo(new Vec3d(stayPos[0], stayPos[1], stayPos[2])) >= (10 * 10)) {
+                    if(mob instanceof FlyingEntity flyingEntity) {
+                        flyingEntity.getMoveControl().moveTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                    } else {
+                        mob.getNavigation().startMovingTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                    }
                 } else {
-                    mob.getNavigation().startMovingTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                    if(leader == null) return;
+                    if(mob.squaredDistanceTo(leader) >= (10 * 10)) {
+                        if(mob instanceof FlyingEntity flyingEntity) {
+                            flyingEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                        } else {
+                            mob.getNavigation().startMovingTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                        }
+                    }
                 }
                 break;
             case 2: // follow
                 if(leader == null) return;
                 if(mob.squaredDistanceTo(leader) >= (10 * 10)) {
-                    mob.getNavigation().startMovingTo(leader, 1.5f);
+                    if(mob instanceof FlyingEntity flyingEntity) {
+                        flyingEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                    } else {
+                        mob.getNavigation().startMovingTo(leader, 1.5f);
+                    }
                     if((mob instanceof EndermanEntity || mob instanceof EndermiteEntity) && mob.squaredDistanceTo(leader) > (32 * 32)) {
                         double d = mob.getRandom().nextGaussian();
                         mob.teleport(leader.getX() + d, leader.getY(), leader.getZ() + d, ParticleTypes.ASH.shouldAlwaysSpawn());
@@ -245,7 +278,10 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
                 mob.setTarget(getLeader().getAttacking());
                 break;
             case 2: // aggressive
-                mob.setTarget(mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(LivingEntity.class, this.getSearchBox(16.0f), (livingEntity) -> true), TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ()));
+                LivingEntity entity = mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(LivingEntity.class, this.getSearchBox(16.0f), (livingEntity) -> true), TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+                if(entity != null) {
+                    mob.setTarget(entity);
+                }
                 break;
         }
     }
@@ -254,11 +290,6 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
     protected Box getSearchBox(double distance) {
         return this.mob.getBoundingBox().expand(distance, (double)4.0F, distance);
     }
-
-//    @Unique
-//    private void openInventory(PlayerEntity player) {
-//        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player1) -> new Generic3x3ContainerScreenHandler(syncId, playerInventory, inventory), Text.of("Inventory")));
-//    }
 
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
     private void setTarget(LivingEntity target, CallbackInfo ci) {
@@ -281,12 +312,12 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
             if(!mob.getWorld().isClient &&
                     accessor.checkArmor(MOB_ENTITY_ARMOR_SET.get(mob.getType())) &&
                     getLeader() == null &&
-                    ((PlayerEntityAccessor)player).canLeadMobEntity(MOB_ENTITY_WEIGHT.get(mob.getType())) &&
+                    ((PlayerEntityAccessor)player).canLeadMobEntity(this.getMobEntityWeight()) &&
                     mob.getTarget() != player
             ) {
-                accessor.addLeadingMobEntity(mob.getUuid());
-                accessor.setLeadingMobEntityWeight(MOB_ENTITY_WEIGHT.get(mob.getType()));
-                accessor.changeLeadingMobEntityWeightUsage(MOB_ENTITY_WEIGHT.get(mob.getType()));
+                accessor.addLeadingMobEntity(mob.getUuid(), this.getMobEntityWeight());
+                accessor.setLeadingMobEntityWeight(this.getMobEntityWeight());
+                accessor.changeLeadingMobEntityWeightUsage(this.getMobEntityWeight());
                 setLeader(player);
                 mob.setPersistent();
             }
