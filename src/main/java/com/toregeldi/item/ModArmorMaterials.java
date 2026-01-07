@@ -3,6 +3,7 @@ package com.toregeldi.item;
 import com.toregeldi.MobLeader;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -16,6 +17,19 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModArmorMaterials {
+    public static final RegistryEntry<ArmorMaterial> BLAZE = registerMaterial("blaze",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.BLAZE_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
     public static final RegistryEntry<ArmorMaterial> BOGGED = registerMaterial("bogged",
             Map.of(
                     ArmorItem.Type.HELMET, 3,
@@ -26,6 +40,19 @@ public class ModArmorMaterials {
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
             () -> Ingredient.ofItems(ModItems.BOGGED_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> BREEZE = registerMaterial("breeze",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.BREEZE_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -107,6 +134,19 @@ public class ModArmorMaterials {
             0.0F,
             0.0F,
             false);
+    public static final RegistryEntry<ArmorMaterial> HEROBRINE = registerMaterial("herobrine",
+            Map.of(
+                    ArmorItem.Type.HELMET, 5,
+                    ArmorItem.Type.CHESTPLATE, 10,
+                    ArmorItem.Type.LEGGINGS, 8,
+                    ArmorItem.Type.BOOTS, 5
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+            () -> Ingredient.ofItems(ModItems.HEROBRINE_MATERIAL),
+            1.0F,
+            1.0F,
+            false);
     public static final RegistryEntry<ArmorMaterial> HUSK = registerMaterial("husk",
             Map.of(
                     ArmorItem.Type.HELMET, 3,
@@ -117,6 +157,19 @@ public class ModArmorMaterials {
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
             () -> Ingredient.ofItems(ModItems.HUSK_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> MAGMACUBE = registerMaterial("magmacube",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.MAGMACUBE_MATERIAL),
             0.0F,
             0.0F,
             false);
@@ -156,6 +209,19 @@ public class ModArmorMaterials {
             5,
             SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
             () -> Ingredient.ofItems(ModItems.SLIME_MATERIAL),
+            0.0F,
+            0.0F,
+            false);
+    public static final RegistryEntry<ArmorMaterial> SPIDER = registerMaterial("spider",
+            Map.of(
+                    ArmorItem.Type.HELMET, 3,
+                    ArmorItem.Type.CHESTPLATE, 8,
+                    ArmorItem.Type.LEGGINGS, 6,
+                    ArmorItem.Type.BOOTS, 3
+            ),
+            5,
+            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+            () -> Ingredient.ofItems(ModItems.SPIDER_MATERIAL),
             0.0F,
             0.0F,
             false);

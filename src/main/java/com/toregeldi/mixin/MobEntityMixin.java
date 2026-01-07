@@ -4,15 +4,13 @@ import com.toregeldi.MobLeader;
 import com.toregeldi.item.ModItems;
 import com.toregeldi.util.MobEntityAccessor;
 import com.toregeldi.util.PlayerEntityAccessor;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Ownable;
-import net.minecraft.entity.Tameable;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +23,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,67 +39,111 @@ import java.util.*;
 public abstract class MobEntityMixin implements MobEntityAccessor {
     @Unique
     private static final Map<EntityType<?>, Item> MOB_ENTITY_TAMING_ITEM = new HashMap<>() {{
+        put(EntityType.BLAZE, Items.BLAZE_ROD);
         put(EntityType.BOGGED, Items.ARROW);
+        put(EntityType.BREEZE, Items.BREEZE_ROD);
         put(EntityType.CAVE_SPIDER, Items.SPIDER_EYE);
         put(EntityType.CREEPER, Items.GUNPOWDER);
         put(EntityType.DROWNED, Items.ROTTEN_FLESH);
+        put(EntityType.ELDER_GUARDIAN, ModItems.OCEAN_STAR);
+        put(EntityType.ENDER_DRAGON, ModItems.END_STAR);
         put(EntityType.ENDERMAN, Items.ENDER_PEARL);
         put(EntityType.EVOKER, Items.EMERALD);
         put(EntityType.GHAST, Items.GHAST_TEAR);
+        put(EntityType.GUARDIAN, Items.PRISMARINE_SHARD);
+        put(EntityType.HOGLIN, Items.GOLD_INGOT);
         put(EntityType.HUSK, Items.ROTTEN_FLESH);
+        put(EntityType.ILLUSIONER, ModItems.OVERWORLD_STAR);
+        put(EntityType.MAGMA_CUBE, Items.MAGMA_CREAM);
         put(EntityType.PIGLIN, Items.GOLD_INGOT);
         put(EntityType.PIGLIN_BRUTE, Items.GOLD_BLOCK);
         put(EntityType.PILLAGER, Items.EMERALD);
+        put(EntityType.RAVAGER, Items.EMERALD);
         put(EntityType.SKELETON, Items.ARROW);
         put(EntityType.SLIME, Items.SLIME_BALL);
+        put(EntityType.SPIDER, Items.SPIDER_EYE);
         put(EntityType.STRAY, Items.ARROW);
+        put(EntityType.VEX, Items.EMERALD);
         put(EntityType.VINDICATOR, Items.EMERALD);
+        put(EntityType.WARDEN, ModItems.CAVE_STAR);
+        put(EntityType.WITHER, Items.NETHER_STAR);
         put(EntityType.WITHER_SKELETON, Items.COAL);
-        put(EntityType.ZOGLIN, Items.COOKED_PORKCHOP);
+        put(EntityType.ZOGLIN, Items.ROTTEN_FLESH);
         put(EntityType.ZOMBIE, Items.ROTTEN_FLESH);
+        put(EntityType.ZOMBIE_VILLAGER, Items.ROTTEN_FLESH);
+        put(EntityType.ZOMBIFIED_PIGLIN, Items.ROTTEN_FLESH);
     }};
 
     @Unique
     private static final Map<EntityType<?>, List<Item>> MOB_ENTITY_ARMOR_SET = new HashMap<>() {{
+        put(EntityType.BLAZE, List.of(ModItems.BLAZE_HELMET, ModItems.BLAZE_CHESTPLATE, ModItems.BLAZE_LEGGINGS, ModItems.BLAZE_BOOTS));
         put(EntityType.BOGGED, List.of(ModItems.BOGGED_HELMET, ModItems.BOGGED_CHESTPLATE, ModItems.BOGGED_LEGGINGS, ModItems.BOGGED_BOOTS));
+        put(EntityType.BREEZE, List.of(ModItems.BREEZE_HELMET, ModItems.BREEZE_CHESTPLATE, ModItems.BREEZE_LEGGINGS, ModItems.BREEZE_BOOTS));
         put(EntityType.CAVE_SPIDER, List.of(ModItems.CAVE_SPIDER_HELMET, ModItems.CAVE_SPIDER_CHESTPLATE, ModItems.CAVE_SPIDER_LEGGINGS, ModItems.CAVE_SPIDER_BOOTS));
         put(EntityType.CREEPER, List.of(ModItems.CREEPER_HELMET, ModItems.CREEPER_CHESTPLATE, ModItems.CREEPER_LEGGINGS, ModItems.CREEPER_BOOTS));
         put(EntityType.DROWNED, List.of(ModItems.DROWNED_HELMET, ModItems.DROWNED_CHESTPLATE, ModItems.DROWNED_LEGGINGS, ModItems.DROWNED_BOOTS));
+        put(EntityType.ELDER_GUARDIAN, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
+        put(EntityType.ENDER_DRAGON, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
         put(EntityType.ENDERMAN, List.of(ModItems.ENDERMAN_HELMET, ModItems.ENDERMAN_CHESTPLATE, ModItems.ENDERMAN_LEGGINGS, ModItems.ENDERMAN_BOOTS));
         put(EntityType.EVOKER, List.of(ModItems.EVOKER_HELMET, ModItems.EVOKER_CHESTPLATE, ModItems.EVOKER_LEGGINGS, ModItems.EVOKER_BOOTS));
         put(EntityType.GHAST, List.of(ModItems.GHAST_HELMET, ModItems.GHAST_CHESTPLATE, ModItems.GHAST_LEGGINGS, ModItems.GHAST_BOOTS));
+        put(EntityType.GUARDIAN, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
+        put(EntityType.HOGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
         put(EntityType.HUSK, List.of(ModItems.HUSK_HELMET, ModItems.HUSK_CHESTPLATE, ModItems.HUSK_LEGGINGS, ModItems.HUSK_BOOTS));
+        put(EntityType.ILLUSIONER, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
+        put(EntityType.MAGMA_CUBE, List.of(ModItems.MAGMACUBE_HELMET, ModItems.MAGMACUBE_CHESTPLATE, ModItems.MAGMACUBE_LEGGINGS, ModItems.MAGMACUBE_BOOTS));
         put(EntityType.PIGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
         put(EntityType.PIGLIN_BRUTE, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
         put(EntityType.PILLAGER, List.of(ModItems.PILLAGER_HELMET, ModItems.PILLAGER_CHESTPLATE, ModItems.PILLAGER_LEGGINGS, ModItems.PILLAGER_BOOTS));
+        put(EntityType.RAVAGER, List.of(ModItems.PILLAGER_HELMET, ModItems.PILLAGER_CHESTPLATE, ModItems.PILLAGER_LEGGINGS, ModItems.PILLAGER_BOOTS));
         put(EntityType.SKELETON, List.of(ModItems.SKELETON_HELMET, ModItems.SKELETON_CHESTPLATE, ModItems.SKELETON_LEGGINGS, ModItems.SKELETON_BOOTS));
         put(EntityType.SLIME, List.of(ModItems.SLIME_HELMET, ModItems.SLIME_CHESTPLATE, ModItems.SLIME_LEGGINGS, ModItems.SLIME_BOOTS));
+        put(EntityType.SPIDER, List.of(ModItems.SPIDER_HELMET, ModItems.SPIDER_CHESTPLATE, ModItems.SPIDER_LEGGINGS, ModItems.SPIDER_BOOTS));
         put(EntityType.STRAY, List.of(ModItems.STRAY_HELMET, ModItems.STRAY_CHESTPLATE, ModItems.STRAY_LEGGINGS, ModItems.STRAY_BOOTS));
+        put(EntityType.VEX, List.of(ModItems.EVOKER_HELMET, ModItems.EVOKER_CHESTPLATE, ModItems.EVOKER_LEGGINGS, ModItems.EVOKER_BOOTS));
         put(EntityType.VINDICATOR, List.of(ModItems.VINDICATOR_HELMET, ModItems.VINDICATOR_CHESTPLATE, ModItems.VINDICATOR_LEGGINGS, ModItems.VINDICATOR_BOOTS));
+        put(EntityType.WARDEN, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
+        put(EntityType.WITHER, List.of(ModItems.HEROBRINE_HELMET, ModItems.HEROBRINE_CHESTPLATE, ModItems.HEROBRINE_LEGGINGS, ModItems.HEROBRINE_BOOTS));
         put(EntityType.WITHER_SKELETON, List.of(ModItems.WITHER_SKELETON_HELMET, ModItems.WITHER_SKELETON_CHESTPLATE, ModItems.WITHER_SKELETON_LEGGINGS, ModItems.WITHER_SKELETON_BOOTS));
         put(EntityType.ZOGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
         put(EntityType.ZOMBIE, List.of(ModItems.ZOMBIE_HELMET, ModItems.ZOMBIE_CHESTPLATE, ModItems.ZOMBIE_LEGGINGS, ModItems.ZOMBIE_BOOTS));
+        put(EntityType.ZOMBIE_VILLAGER, List.of(ModItems.ZOMBIE_HELMET, ModItems.ZOMBIE_CHESTPLATE, ModItems.ZOMBIE_LEGGINGS, ModItems.ZOMBIE_BOOTS));
+        put(EntityType.ZOMBIFIED_PIGLIN, List.of(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS));
     }};
 
     @Unique
     private static final Map<EntityType<?>, Integer> MOB_ENTITY_WEIGHT = new HashMap<>() {{
-        put(EntityType.BOGGED, 2);
-        put(EntityType.CAVE_SPIDER, 2);
+        put(EntityType.BLAZE, 4);
+        put(EntityType.BOGGED, 3);
+        put(EntityType.BREEZE, 4);
+        put(EntityType.CAVE_SPIDER, 4);
         put(EntityType.CREEPER, 3);
-        put(EntityType.DROWNED, 2);
-        put(EntityType.ENDERMAN, 4);
-        put(EntityType.EVOKER, 3);
-        put(EntityType.GHAST, 5);
-        put(EntityType.HUSK, 2);
+        put(EntityType.DROWNED, 3);
+        put(EntityType.ELDER_GUARDIAN, 60);
+        put(EntityType.ENDER_DRAGON, 60);
+        put(EntityType.ENDERMAN, 5);
+        put(EntityType.EVOKER, 8);
+        put(EntityType.GHAST, 10);
+        put(EntityType.GUARDIAN, 7);
+        put(EntityType.HOGLIN, 2);
+        put(EntityType.HUSK, 3);
+        put(EntityType.ILLUSIONER, 60);
         put(EntityType.PIGLIN, 3);
         put(EntityType.PIGLIN_BRUTE, 5);
         put(EntityType.PILLAGER, 2);
-        put(EntityType.SKELETON, 1);
-        put(EntityType.STRAY, 2);
-        put(EntityType.VINDICATOR, 5);
-        put(EntityType.WITHER_SKELETON, 5);
+        put(EntityType.RAVAGER, 20);
+        put(EntityType.SKELETON, 2);
+        put(EntityType.SPIDER, 3);
+        put(EntityType.STRAY, 3);
+        put(EntityType.VEX, 0);
+        put(EntityType.VINDICATOR, 8);
+        put(EntityType.WARDEN, 60);
+        put(EntityType.WITHER, 60);
+        put(EntityType.WITHER_SKELETON, 6);
         put(EntityType.ZOGLIN, 2);
-        put(EntityType.ZOMBIE, 1);
+        put(EntityType.ZOMBIE, 2);
+        put(EntityType.ZOMBIE_VILLAGER, 2);
+        put(EntityType.ZOMBIFIED_PIGLIN, 3);
     }};
 
     @Unique
@@ -113,6 +156,9 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
     private int navigationMode = 0;
 
     @Unique
+    private boolean isSelected = false;
+
+    @Unique
     private int[] stayPos = new int[4];
 
 //    @Unique
@@ -120,6 +166,18 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Unique
     private static TrackedData<Optional<UUID>> LEADER_UUID;
+
+    @Unique
+    @Override
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    @Unique
+    @Override
+    public void setSelected(boolean selected) {
+        this.isSelected = selected;
+    }
 
     @Unique
     @Override
@@ -169,6 +227,9 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
     @Unique
     @Override
     public List<Item> getMobEntityArmorSet() {
+        if(mob instanceof VexEntity) {
+            return MOB_ENTITY_ARMOR_SET.get(EntityType.EVOKER);
+        }
         return MOB_ENTITY_ARMOR_SET.get(mob.getType());
     }
 
@@ -204,11 +265,11 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Unique
     @Override
-    public void setLeader(@Nullable PlayerEntity player) {
-        if(player == null) {
+    public void setLeader(@Nullable LivingEntity livingEntity) {
+        if(livingEntity == null) {
             this.setLeaderUuid(null);
         } else {
-            this.setLeaderUuid(player.getUuid());
+            this.setLeaderUuid(livingEntity.getUuid());
         }
     }
 
@@ -220,8 +281,8 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Unique
     protected void showEmoteParticle() {
-        ParticleEffect particleEffect = ParticleTypes.HEART;
-        for(int i = 0; i < 7; ++i) {
+        ParticleEffect particleEffect = ParticleTypes.GLOW;
+        for(int i = 0; i < 6; ++i) {
             double d = mob.getRandom().nextGaussian() * 0.02;
             mob.getWorld().addParticle(particleEffect, mob.getParticleX(1.0f), mob.getRandomBodyY() + (double)0.5F, mob.getParticleZ(1.0f), d, d, d);
         }
@@ -234,28 +295,34 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
             case 0: // wander
                 break;
             case 1: // stay
-                if(stayPos[3] == 1 && mob.squaredDistanceTo(new Vec3d(stayPos[0], stayPos[1], stayPos[2])) >= (10 * 10)) {
-                    if(mob instanceof FlyingEntity flyingEntity) {
-                        flyingEntity.getMoveControl().moveTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                if(stayPos[3] == 1) {
+                    if(mob instanceof FlyingEntity || mob instanceof BlazeEntity || mob instanceof BreezeEntity) {
+                        mob.getMoveControl().moveTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
+                    } else if(mob instanceof SlimeEntity slimeEntity) {
+                        slimeEntity.getMoveControl().moveTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
                     } else {
                         mob.getNavigation().startMovingTo(stayPos[0] + 0.5, stayPos[1] + 0.5, stayPos[2] + 0.5, 1.5f);
                     }
                 } else {
                     if(leader == null) return;
-                    if(mob.squaredDistanceTo(leader) >= (10 * 10)) {
+                    if(mob.squaredDistanceTo(leader) >= (16 * 16)) {
                         if(mob instanceof FlyingEntity flyingEntity) {
                             flyingEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                        } else if(mob instanceof SlimeEntity slimeEntity) {
+                            slimeEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
                         } else {
-                            mob.getNavigation().startMovingTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                            mob.getNavigation().startMovingTo(leader, 1.5f);
                         }
                     }
                 }
                 break;
             case 2: // follow
                 if(leader == null) return;
-                if(mob.squaredDistanceTo(leader) >= (10 * 10)) {
-                    if(mob instanceof FlyingEntity flyingEntity) {
-                        flyingEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                if(mob.squaredDistanceTo(leader) >= (16 * 16)) {
+                    if(mob instanceof FlyingEntity || mob instanceof BlazeEntity || mob instanceof BreezeEntity) {
+                        mob.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
+                    } else if(mob instanceof SlimeEntity slimeEntity) {
+                        slimeEntity.getMoveControl().moveTo(leader.getX(), leader.getY(), leader.getZ(), 1.5f);
                     } else {
                         mob.getNavigation().startMovingTo(leader, 1.5f);
                     }
@@ -279,7 +346,7 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
                 break;
             case 2: // aggressive
                 LivingEntity entity = mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(LivingEntity.class, this.getSearchBox(16.0f), (livingEntity) -> true), TargetPredicate.DEFAULT, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
-                if(entity != null) {
+                if(entity != null && entity.isAlive() && !entity.isInCreativeMode()) {
                     mob.setTarget(entity);
                 }
                 break;
@@ -288,12 +355,12 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
 
     @Unique
     protected Box getSearchBox(double distance) {
-        return this.mob.getBoundingBox().expand(distance, (double)4.0F, distance);
+        return this.mob.getBoundingBox().expand(distance, (double)8.0F, distance);
     }
 
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
     private void setTarget(LivingEntity target, CallbackInfo ci) {
-        if((target instanceof PlayerEntity && isLeader(target)) ||
+        if(isLeader(target) ||
                 (target instanceof Tameable tameable1 && tameable1.getOwner() == getLeader()) ||
                 (mob instanceof Tameable tameable2 && target instanceof MobEntity && tameable2.getOwner() == ((MobEntityAccessor) target).getLeader()) ||
                 (target instanceof MobEntity && ((MobEntityAccessor) mob).getLeader() == ((MobEntityAccessor) target).getLeader()) ||
@@ -309,14 +376,13 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
         ItemStack item = player.getStackInHand(hand);
         PlayerEntityAccessor accessor = (PlayerEntityAccessor)player;
         if(MOB_ENTITY_TAMING_ITEM.get(mob.getType()) == item.getItem()) {
-            if(!mob.getWorld().isClient &&
-                    accessor.checkArmor(MOB_ENTITY_ARMOR_SET.get(mob.getType())) &&
+            if(!mob.getWorld().isClient() &&
+                    accessor.checkArmor(getMobEntityArmorSet()) &&
                     getLeader() == null &&
                     ((PlayerEntityAccessor)player).canLeadMobEntity(this.getMobEntityWeight()) &&
                     mob.getTarget() != player
             ) {
                 accessor.addLeadingMobEntity(mob.getUuid(), this.getMobEntityWeight());
-                accessor.setLeadingMobEntityWeight(this.getMobEntityWeight());
                 accessor.changeLeadingMobEntityWeightUsage(this.getMobEntityWeight());
                 setLeader(player);
                 mob.setPersistent();
@@ -330,12 +396,24 @@ public abstract class MobEntityMixin implements MobEntityAccessor {
             showEmoteParticle();
             item.decrementUnlessCreative(1, player);
             cir.setReturnValue(ActionResult.SUCCESS);
+        } else if(!mob.getWorld().isClient() && isLeader(player) && item.getItem() != ModItems.MOB_LEADER_STAFF && !(mob instanceof AbstractHorseEntity)) {
+            player.startRiding(mob, true);
         }
+
 //        if(!mob.getWorld().isClient && isLeader(player) && player.isSneaking()) {
 //            openInventory(player);
 //        }
         // TODO: Inventory for Equipment (Armor), (Enchanted Bow for Skeleton, Enchanted Stone Sword for Wither Skeleton),
         //  maybe implement Donkey, Llama like Storage with Chest
+    }
+
+    @Inject(method = "getControllingPassenger", at = @At("HEAD"), cancellable = true)
+    public void getControllingPassenger(CallbackInfoReturnable<LivingEntity> cir) {
+        Entity var2 = mob.getFirstPassenger();
+        if (var2 instanceof PlayerEntity) {
+            PlayerEntity playerEntity = (PlayerEntity)var2;
+            cir.setReturnValue(playerEntity);
+        }
     }
 
     @Inject(method = "tick", at = @At("TAIL"), cancellable = true)

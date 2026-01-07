@@ -1,5 +1,7 @@
 package com.toregeldi.mixin;
 
+import com.toregeldi.MobLeader;
+import com.toregeldi.item.ModItems;
 import com.toregeldi.network.s2c.LeadingMobEntitiesPayload;
 import com.toregeldi.network.s2c.LeadingMobEntityCapacityPayload;
 import com.toregeldi.network.s2c.LeadingMobEntityWeightUsagePayload;
@@ -37,13 +39,13 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     private final Map<UUID, Integer> leadingMobEntities = new HashMap<>();
 
     @Unique
-    private int leadingMobEntityWeight = 0;
+    private final List<MobEntity> selectedMobs = new ArrayList<>();
 
     @Unique
     private int leadingMobEntityWeightUsage = 0;
 
     @Unique
-    private int leadingMobEntityCapacity = 200;
+    private int leadingMobEntityCapacity = 120;
 
     @Unique
     @Override
@@ -52,12 +54,11 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
                 player.getEquippedStack(EquipmentSlot.HEAD).getItem() == armor.get(0) &&
                         player.getEquippedStack(EquipmentSlot.CHEST).getItem() == armor.get(1) &&
                         player.getEquippedStack(EquipmentSlot.LEGS).getItem() == armor.get(2) &&
-                        player.getEquippedStack(EquipmentSlot.FEET).getItem() == armor.get(3)
-                ) || (
-                player.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.NETHERITE_HELMET &&
-                        player.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.NETHERITE_CHESTPLATE &&
-                        player.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.NETHERITE_LEGGINGS &&
-                        player.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.NETHERITE_BOOTS);
+                        player.getEquippedStack(EquipmentSlot.FEET).getItem() == armor.get(3)) || (
+                player.getEquippedStack(EquipmentSlot.HEAD).getItem() == ModItems.HEROBRINE_HELMET &&
+                        player.getEquippedStack(EquipmentSlot.CHEST).getItem() == ModItems.HEROBRINE_CHESTPLATE &&
+                        player.getEquippedStack(EquipmentSlot.LEGS).getItem() == ModItems.HEROBRINE_LEGGINGS &&
+                        player.getEquippedStack(EquipmentSlot.FEET).getItem() == ModItems.HEROBRINE_BOOTS);
     }
 
     @Unique
@@ -75,16 +76,37 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
     @Unique
     @Override
-    public void removeLeadingMobEntity(UUID uuid) {
-        leadingMobEntities.remove(uuid);
-        syncMobEntitiesGeneralData();
+    public void removeLeadingMobEntity(UUID uuid, int weight) {
+        if(leadingMobEntities.get(uuid) != null) {
+            leadingMobEntities.remove(uuid);
+            syncMobEntitiesGeneralData();
+        }
     }
 
     @Unique
     @Override
     public void clearLeadingMobEntities() {
+        changeLeadingMobEntityWeightUsage(0);
         leadingMobEntities.clear();
         syncMobEntitiesGeneralData();
+    }
+
+    @Unique
+    @Override
+    public List<MobEntity> getSelectedMobs() {
+        return selectedMobs;
+    }
+
+    @Unique
+    @Override
+    public void addSelectedMob(MobEntity mob) {
+        selectedMobs.add(mob);
+    }
+
+    @Unique
+    @Override
+    public void removeSelectedMob(MobEntity mob) {
+        selectedMobs.remove(mob);
     }
 
     @Unique
@@ -100,8 +122,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     }
 
     @Unique
-    @Override
-    public void changeLeadingMobEntityCapacity(int capacity) {
+    private void changeLeadingMobEntityCapacity(int capacity) {
         setLeadingMobEntityCapacity(this.leadingMobEntityCapacity + capacity);
         syncCapacityData();
     }
@@ -110,18 +131,6 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Override
     public boolean canLeadMobEntity(int weight) {
         return leadingMobEntityWeightUsage + weight <= leadingMobEntityCapacity;
-    }
-
-    @Unique
-    @Override
-    public int getLeadingMobEntityWeight() {
-        return this.leadingMobEntityWeight;
-    }
-
-    @Unique
-    @Override
-    public void setLeadingMobEntityWeight(int weight) {
-        this.leadingMobEntityWeight = weight;
     }
 
     @Unique
@@ -168,30 +177,38 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     private void tick(CallbackInfo ci) {
         World world = player.getWorld();
         if(world instanceof ServerWorld serverWorld && !leadingMobEntities.isEmpty()) {
-            loop: for(UUID uuid: leadingMobEntities.keySet().stream().toList()) {
+            if(!nbtValidated) {
+                Iterator<Map.Entry<UUID, Integer>> iterator = leadingMobEntities.entrySet().iterator();
+                while(iterator.hasNext()) {
+                    Map.Entry<UUID, Integer> entry = iterator.next();
+                    UUID uuid = entry.getKey();
+                    int weight = entry.getValue();
+
+                    Entity entity = serverWorld.getEntity(uuid);
+                    if(entity == null || !entity.isAlive() || entity.isRemoved()) {
+                        iterator.remove();
+                        changeLeadingMobEntityWeightUsage(-weight);
+                    } else {;
+                        ((MobEntityAccessor)entity).setLeader(player);
+                    }
+                }
+
+                nbtValidated = true;
+                syncWeightUsageData();
+            }
+
+            for(UUID uuid: leadingMobEntities.keySet()) {
                 MobEntity mob = (MobEntity)serverWorld.getEntity(uuid);
                 if(mob != null) {
                     if(!checkArmor(((MobEntityAccessor)mob).getMobEntityArmorSet())) {
                         for(UUID uuid1: leadingMobEntities.keySet()) {
-                            ((MobEntityAccessor)(serverWorld).getEntity(uuid1)).setLeader(null);
+                            ((MobEntityAccessor)Objects.requireNonNull((serverWorld).getEntity(uuid1))).setLeader(null);
                         }
                         clearLeadingMobEntities();
                         setLeadingMobEntityWeightUsage(0);
-                        break loop;
+                        break;
                     }
                 }
-            }
-
-            if(!nbtValidated) {
-                for(Map.Entry<UUID, Integer> entry: leadingMobEntities.entrySet()) {
-                    MobEntity mob1 = (MobEntity)serverWorld.getEntity(entry.getKey());
-                    if(mob1 == null) {
-                        leadingMobEntities.remove(entry.getKey());
-                        changeLeadingMobEntityWeightUsage(-entry.getValue());
-                    }
-                }
-                nbtValidated = true;
-                syncWeightUsageData();
             }
         }
         syncMobEntitiesGeneralData();
@@ -199,7 +216,6 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putInt("LeadingMobEntityWeight", this.leadingMobEntityWeight);
         nbt.putInt("LeadingMobEntityWeightUsage", this.leadingMobEntityWeightUsage);
         nbt.putInt("LeadingMobEntityCapacity", this.leadingMobEntityCapacity);
         NbtList list = new NbtList();
@@ -214,9 +230,6 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-        if(nbt.contains("LeadingMobEntityWeight")) {
-            this.leadingMobEntityWeight = nbt.getInt("LeadingMobEntityWeight");
-        }
         if(nbt.contains("LeadingMobEntityWeightUsage")) {
             this.leadingMobEntityWeightUsage = nbt.getInt("LeadingMobEntityWeightUsage");
         }

@@ -1,6 +1,7 @@
 package com.toregeldi;
 
 import com.toregeldi.gui.PlayerLeadingEntityGUI;
+import com.toregeldi.keybinds.ModKeyBinds;
 import com.toregeldi.network.c2s.LeadingMobEntityAttackModePayload;
 import com.toregeldi.network.c2s.LeadingMobEntityNavigationModePayload;
 import com.toregeldi.network.s2c.LeadingMobEntitiesPayload;
@@ -12,6 +13,7 @@ import com.toregeldi.util.MobEntityAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -27,7 +29,9 @@ import java.util.List;
 public class MobLeaderClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ModKeyBinds.initialize();
         HudRenderCallback.EVENT.register(new PlayerLeadingEntityGUI());
+
         ClientPlayNetworking.registerGlobalReceiver(LeadingMobEntityWeightUsagePayload.ID, ((payload, context) ->
                 context.client().execute(() -> PlayerLeadingEntityGUI.getLeadingMobEntityWeightUsageFromServer(payload.weight()))));
 
@@ -42,13 +46,8 @@ public class MobLeaderClient implements ClientModInitializer {
                             list.add(new LeadingMobEntityGeneralData(
                                     compound.getUuid("UUID"),
                                     compound.getString("EntityType"),
-                                    compound.getFloat("Health"),
-                                    compound.getFloat("MaxHealth"),
                                     compound.getInt("AttackMode"),
-                                    compound.getInt("NavigationMode"),
-                                    compound.getDouble("PosX"),
-                                    compound.getDouble("PosY"),
-                                    compound.getDouble("PosZ")
+                                    compound.getInt("NavigationMode")
                             ));
                         }
                     }

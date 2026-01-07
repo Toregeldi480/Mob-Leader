@@ -16,10 +16,20 @@ public class ModItemGroups {
             .entries((context, entries) -> {
                 entries.add(ModItems.MOB_LEADER_STAFF);
 
+                entries.add(ModItems.BLAZE_HELMET);
+                entries.add(ModItems.BLAZE_CHESTPLATE);
+                entries.add(ModItems.BLAZE_LEGGINGS);
+                entries.add(ModItems.BLAZE_BOOTS);
+
                 entries.add(ModItems.BOGGED_HELMET);
                 entries.add(ModItems.BOGGED_CHESTPLATE);
                 entries.add(ModItems.BOGGED_LEGGINGS);
                 entries.add(ModItems.BOGGED_BOOTS);
+
+                entries.add(ModItems.BREEZE_HELMET);
+                entries.add(ModItems.BREEZE_CHESTPLATE);
+                entries.add(ModItems.BREEZE_LEGGINGS);
+                entries.add(ModItems.BREEZE_BOOTS);
 
                 entries.add(ModItems.CAVE_SPIDER_HELMET);
                 entries.add(ModItems.CAVE_SPIDER_CHESTPLATE);
@@ -51,10 +61,20 @@ public class ModItemGroups {
                 entries.add(ModItems.GHAST_LEGGINGS);
                 entries.add(ModItems.GHAST_BOOTS);
 
+                entries.add(ModItems.HEROBRINE_HELMET);
+                entries.add(ModItems.HEROBRINE_CHESTPLATE);
+                entries.add(ModItems.HEROBRINE_LEGGINGS);
+                entries.add(ModItems.HEROBRINE_BOOTS);
+
                 entries.add(ModItems.HUSK_HELMET);
                 entries.add(ModItems.HUSK_CHESTPLATE);
                 entries.add(ModItems.HUSK_LEGGINGS);
                 entries.add(ModItems.HUSK_BOOTS);
+
+                entries.add(ModItems.MAGMACUBE_HELMET);
+                entries.add(ModItems.MAGMACUBE_CHESTPLATE);
+                entries.add(ModItems.MAGMACUBE_LEGGINGS);
+                entries.add(ModItems.MAGMACUBE_BOOTS);
 
                 entries.add(ModItems.PILLAGER_HELMET);
                 entries.add(ModItems.PILLAGER_CHESTPLATE);
@@ -70,6 +90,11 @@ public class ModItemGroups {
                 entries.add(ModItems.SLIME_CHESTPLATE);
                 entries.add(ModItems.SLIME_LEGGINGS);
                 entries.add(ModItems.SLIME_BOOTS);
+
+                entries.add(ModItems.SPIDER_HELMET);
+                entries.add(ModItems.SPIDER_CHESTPLATE);
+                entries.add(ModItems.SPIDER_LEGGINGS);
+                entries.add(ModItems.SPIDER_BOOTS);
 
                 entries.add(ModItems.STRAY_HELMET);
                 entries.add(ModItems.STRAY_CHESTPLATE);
@@ -104,6 +129,7 @@ public class ModItemGroups {
                 entries.add(ModItems.EVOKER_MATERIAL);
                 entries.add(ModItems.GHAST_MATERIAL);
                 entries.add(ModItems.HUSK_MATERIAL);
+                entries.add(ModItems.MAGMACUBE_MATERIAL);
                 entries.add(ModItems.PILLAGER_MATERIAL);
                 entries.add(ModItems.SKELETON_MATERIAL);
                 entries.add(ModItems.SLIME_MATERIAL);
@@ -111,6 +137,11 @@ public class ModItemGroups {
                 entries.add(ModItems.VINDICATOR_MATERIAL);
                 entries.add(ModItems.WITHER_SKELETON_MATERIAL);
                 entries.add(ModItems.ZOMBIE_MATERIAL);
+
+                entries.add(ModItems.CAVE_STAR);
+                entries.add(ModItems.END_STAR);
+                entries.add(ModItems.OCEAN_STAR);
+                entries.add(ModItems.OVERWORLD_STAR);
             }).build();
 
     public static void initialize() {

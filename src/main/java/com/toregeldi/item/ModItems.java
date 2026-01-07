@@ -9,11 +9,23 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
+    public static final Item BLAZE_HELMET = register(new ArmorItem(ModArmorMaterials.BLAZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "blaze_helmet");
+    public static final Item BLAZE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.BLAZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "blaze_chestplate");
+    public static final Item BLAZE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.BLAZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "blaze_leggings");
+    public static final Item BLAZE_BOOTS = register(new ArmorItem(ModArmorMaterials.BLAZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "blaze_boots");
+    public static final Item BLAZE_MATERIAL = register(new Item(new Item.Settings()), "blaze_material");
+
     public static final Item BOGGED_HELMET = register(new ArmorItem(ModArmorMaterials.BOGGED, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "bogged_helmet");
     public static final Item BOGGED_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.BOGGED, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "bogged_chestplate");
     public static final Item BOGGED_LEGGINGS = register(new ArmorItem(ModArmorMaterials.BOGGED, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "bogged_leggings");
     public static final Item BOGGED_BOOTS = register(new ArmorItem(ModArmorMaterials.BOGGED, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "bogged_boots");
     public static final Item BOGGED_MATERIAL = register(new Item(new Item.Settings()), "bogged_material");
+
+    public static final Item BREEZE_HELMET = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "breeze_helmet");
+    public static final Item BREEZE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "breeze_chestplate");
+    public static final Item BREEZE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "breeze_leggings");
+    public static final Item BREEZE_BOOTS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "breeze_boots");
+    public static final Item BREEZE_MATERIAL = register(new Item(new Item.Settings()), "breeze_material");
 
     public static final Item CAVE_SPIDER_HELMET = register(new ArmorItem(ModArmorMaterials.CAVE_SPIDER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "cave_spider_helmet");
     public static final Item CAVE_SPIDER_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.CAVE_SPIDER, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "cave_spider_chestplate");
@@ -51,11 +63,23 @@ public class ModItems {
     public static final Item GHAST_BOOTS = register(new ArmorItem(ModArmorMaterials.GHAST, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "ghast_boots");
     public static final Item GHAST_MATERIAL = register(new Item(new Item.Settings()), "ghast_material");
 
+    public static final Item HEROBRINE_HELMET = register(new ArmorItem(ModArmorMaterials.HEROBRINE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "herobrine_helmet");
+    public static final Item HEROBRINE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.HEROBRINE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "herobrine_chestplate");
+    public static final Item HEROBRINE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.HEROBRINE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "herobrine_leggings");
+    public static final Item HEROBRINE_BOOTS = register(new ArmorItem(ModArmorMaterials.HEROBRINE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "herobrine_boots");
+    public static final Item HEROBRINE_MATERIAL = register(new Item(new Item.Settings()), "herobrine_material");
+
     public static final Item HUSK_HELMET = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "husk_helmet");
     public static final Item HUSK_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "husk_chestplate");
     public static final Item HUSK_LEGGINGS = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "husk_leggings");
     public static final Item HUSK_BOOTS = register(new ArmorItem(ModArmorMaterials.HUSK, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "husk_boots");
     public static final Item HUSK_MATERIAL = register(new Item(new Item.Settings()), "husk_material");
+
+    public static final Item MAGMACUBE_HELMET = register(new ArmorItem(ModArmorMaterials.MAGMACUBE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "magmacube_helmet");
+    public static final Item MAGMACUBE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.MAGMACUBE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "magmacube_chestplate");
+    public static final Item MAGMACUBE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.MAGMACUBE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "magmacube_leggings");
+    public static final Item MAGMACUBE_BOOTS = register(new ArmorItem(ModArmorMaterials.MAGMACUBE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "magmacube_boots");
+    public static final Item MAGMACUBE_MATERIAL = register(new Item(new Item.Settings()), "magmacube_material");
 
     public static final Item PILLAGER_HELMET = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "pillager_helmet");
     public static final Item PILLAGER_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.PILLAGER, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "pillager_chestplate");
@@ -74,6 +98,12 @@ public class ModItems {
     public static final Item SLIME_LEGGINGS = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "slime_leggings");
     public static final Item SLIME_BOOTS = register(new ArmorItem(ModArmorMaterials.SLIME, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "slime_boots");
     public static final Item SLIME_MATERIAL = register(new Item(new Item.Settings()), "slime_material");
+
+    public static final Item SPIDER_HELMET = register(new ArmorItem(ModArmorMaterials.SPIDER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "spider_helmet");
+    public static final Item SPIDER_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.SPIDER, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "spider_chestplate");
+    public static final Item SPIDER_LEGGINGS = register(new ArmorItem(ModArmorMaterials.SPIDER, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "spider_leggings");
+    public static final Item SPIDER_BOOTS = register(new ArmorItem(ModArmorMaterials.SPIDER, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "spider_boots");
+    public static final Item SPIDER_MATERIAL = register(new Item(new Item.Settings()), "spider_material");
 
     public static final Item STRAY_HELMET = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "stray_helmet");
     public static final Item STRAY_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.STRAY, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "stray_chestplate");
@@ -99,7 +129,12 @@ public class ModItems {
     public static final Item ZOMBIE_BOOTS = register(new ArmorItem(ModArmorMaterials.ZOMBIE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "zombie_boots");
     public static final Item ZOMBIE_MATERIAL = register(new Item(new Item.Settings()), "zombie_material");
 
-    public static final Item MOB_LEADER_STAFF = register(new MobLeaderStaffItem(new Item.Settings()), "mob_leader_staff");
+    public static final Item CAVE_STAR = register(new Item(new Item.Settings()), "cave_star");
+    public static final Item END_STAR = register(new Item(new Item.Settings()), "end_star");
+    public static final Item OCEAN_STAR = register(new Item(new Item.Settings()), "ocean_star");
+    public static final Item OVERWORLD_STAR = register(new Item(new Item.Settings()), "overworld_star");
+
+    public static final Item MOB_LEADER_STAFF = register(new MobLeaderStaffItem(new Item.Settings().maxCount(1)), "mob_leader_staff");
 
     public static Item register(Item item, String id) {
         Identifier itemID = Identifier.of(MobLeader.MOD_ID, id);

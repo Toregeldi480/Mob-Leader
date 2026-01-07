@@ -1,11 +1,21 @@
 {
-  "item.mob-leader.mob_leader_staff": "Mob Leader Staff",
+  "item.mob-leader.blaze_helmet": "Blaze Helmet",
+  "item.mob-leader.blaze_chestplate": "Blaze Chestplate",
+  "item.mob-leader.blaze_leggings": "Blaze Leggings",
+  "item.mob-leader.blaze_boots": "Blaze Boots",
+  "item.mob-leader.blaze_material": "Blaze Material",
 
   "item.mob-leader.bogged_helmet": "Bogged Helmet",
   "item.mob-leader.bogged_chestplate": "Bogged Chestplate",
   "item.mob-leader.bogged_leggings": "Bogged Leggings",
   "item.mob-leader.bogged_boots": "Bogged Boots",
   "item.mob-leader.bogged_material": "Bogged Material",
+
+  "item.mob-leader.breeze_helmet": "Breeze Helmet",
+  "item.mob-leader.breeze_chestplate": "Breeze Chestplate",
+  "item.mob-leader.breeze_leggings": "Breeze Leggings",
+  "item.mob-leader.breeze_boots": "Breeze Boots",
+  "item.mob-leader.breeze_material": "Breeze Material",
 
   "item.mob-leader.cave_spider_helmet": "Cave Spider Helmet",
   "item.mob-leader.cave_spider_chestplate": "Cave Spider Chestplate",
@@ -43,11 +53,23 @@
   "item.mob-leader.ghast_boots": "Ghast Boots",
   "item.mob-leader.ghast_material": "Ghast Material",
 
+  "item.mob-leader.herobrine_helmet": "Herobrine Helmet",
+  "item.mob-leader.herobrine_chestplate": "Herobrine Chestplate",
+  "item.mob-leader.herobrine_leggings": "Herobrine Leggings",
+  "item.mob-leader.herobrine_boots": "Herobrine Boots",
+  "item.mob-leader.herobrine_material": "Herobrine Material",
+
   "item.mob-leader.husk_helmet": "Husk Helmet",
   "item.mob-leader.husk_chestplate": "Husk Chestplate",
   "item.mob-leader.husk_leggings": "Husk Leggings",
   "item.mob-leader.husk_boots": "Husk Boots",
   "item.mob-leader.husk_material": "Husk Material",
+
+  "item.mob-leader.magmacube_helmet": "Magmacube Helmet",
+  "item.mob-leader.magmacube_chestplate": "Magmacube Chestplate",
+  "item.mob-leader.magmacube_leggings": "Magmacube Leggings",
+  "item.mob-leader.magmacube_boots": "Magmacube Boots",
+  "item.mob-leader.magmacube_material": "Magmacube Material",
 
   "item.mob-leader.pillager_helmet": "Pillager Helmet",
   "item.mob-leader.pillager_chestplate": "Pillager Chestplate",
@@ -66,6 +88,12 @@
   "item.mob-leader.slime_leggings": "Slime Leggings",
   "item.mob-leader.slime_boots": "Slime Boots",
   "item.mob-leader.slime_material": "Slime Material",
+
+  "item.mob-leader.spider_helmet": "Spider Helmet",
+  "item.mob-leader.spider_chestplate": "Spider Chestplate",
+  "item.mob-leader.spider_leggings": "Spider Leggings",
+  "item.mob-leader.spider_boots": "Spider Boots",
+  "item.mob-leader.spider_material": "Spider Material",
 
   "item.mob-leader.stray_helmet": "Stray Helmet",
   "item.mob-leader.stray_chestplate": "Stray Chestplate",
@@ -91,6 +119,17 @@
   "item.mob-leader.zombie_boots": "Zombie Boots",
   "item.mob-leader.zombie_material": "Zombie Material",
 
+  "item.mob-leader.cave_star": "Cave Star",
+  "item.mob-leader.end_star": "End Star",
+  "item.mob-leader.ocean_star": "Ocean Star",
+  "item.mob-leader.overworld_star": "Overworld Star",
+
+  "item.mob-leader.mob_leader_staff": "Mob Leader Staff",
+
   "itemGroup.mob-leader.mob_armor_group": "Mob Armors",
-  "itemGroup.mob-leader.mob_misc_group": "Mob Misc"
+  "itemGroup.mob-leader.mob_misc_group": "Mob Misc",
+
+  "key.mob-leader.descend": "Descend",
+  "key.mob-leader.ascend": "Ascend",
+  "category.mob-leader.movement": "Riding Mob Movement"
 }

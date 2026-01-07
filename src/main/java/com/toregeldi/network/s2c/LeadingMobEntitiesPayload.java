@@ -51,13 +51,8 @@ public record LeadingMobEntitiesPayload(NbtList mobEntities) implements CustomPa
                     NbtCompound compound = new NbtCompound();
                     compound.putUuid("UUID", uuid);
                     compound.putString("EntityType", living.getType().toString());
-                    compound.putFloat("Health", living.getHealth());
-                    compound.putFloat("MaxHealth", living.getMaxHealth());
                     compound.putInt("AttackMode", accessor.getAttackMode());
                     compound.putInt("NavigationMode", accessor.getNavigationMode());
-                    compound.putDouble("PosX", Math.floor(living.getPos().x));
-                    compound.putDouble("PosY", Math.floor(living.getPos().y));
-                    compound.putDouble("PosZ", Math.floor(living.getPos().z));
                     list.add(compound);
                 }
             }

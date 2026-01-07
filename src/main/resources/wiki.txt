@@ -4,18 +4,59 @@
 3. Equip corresponding full armor set
 
 #TAMING ITEM
-Creeper - Gunpowder
-Skeleton - Arrow
-Wither Skeleton - Coal
-Frozen Skeleton - Slowness Arrow
-Zombie (any type) - Rotten Meal
+BOGGED - ARROW
+CAVE_SPIDER - SPIDER_EYE
+CREEPER - GUNPOWDER
+DROWNED - ROTTEN_FLESH
+ENDERMAN - ENDER_PEARL
+EVOKER - EMERALD
+GHAST - GHAST_TEAR
+HUSK - ROTTEN_FLESH
+PIGLIN - GOLD_INGOT
+PIGLIN_BRUTE - GOLD_BLOCK
+PILLAGER - EMERALD
+SKELETON - ARROW
+SLIME - SLIME_BALL
+STRAY - ARROW
+VINDICATOR - EMERALD
+WITHER_SKELETON - COAL
+ZOGLIN - ROTTEN_FLESH
+ZOMBIE - ROTTEN_FLESH
+
 
 #MOB ARMOR RECIPE
-Combine Diamond Armor With Corresponding Material
+Combine Diamond Armor With Corresponding Material (in any order)
 Example: 5 Creeper Material + Diamond Helmet = Creeper Helmet
+There is also Herobrine armor, which can be created ... // TODO
+
+!Exception
+Piglins, Brute Piglins, Zoglins are tamed with golden armor set
 
 #MATERIAL
-Each type of material can be obtained from corresponding hostile entity with 5% chance
+Each type of material can be obtained from corresponding hostile entity with 5% chance (piglins, brute piglins, zoglins do not drop)
+
+#CONTROLLING UNITS
+In order to control units you need a "mob leader staff"
+Crafting table (x - nether star, $ diamond, % stick):
+0$x
+0%$
+%00
 
 #UNIT WEIGHT
-Creeper - 4
+BOGGED - 2
+CAVE_SPIDER - 2
+CREEPER - 3
+DROWNED - 2
+ENDERMAN - 4
+EVOKER - 3
+GHAST - 5
+HUSK - 2
+PIGLIN - 3
+PIGLIN_BRUTE - 5
+PILLAGER - 2
+SKELETON - 1
+STRAY - 2
+VINDICATOR - 5
+WITHER_SKELETON - 5
+ZOGLIN - 2
+ZOMBIE - 1

@@ -4,6 +4,7 @@ import com.toregeldi.MobLeader;
 import com.toregeldi.screen.MobEntityInteractionScreen;
 import com.toregeldi.util.MobEntityAccessor;
 import com.toregeldi.util.PlayerEntityAccessor;
+import net.fabricmc.fabric.mixin.networking.client.accessor.MinecraftClientAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -21,14 +22,15 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MobLeaderStaffItem extends Item {
     public MobLeaderStaffItem(Settings settings) {
         super(settings);
     }
-    private MobEntity mob;
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -43,15 +45,22 @@ public class MobLeaderStaffItem extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if(entity instanceof MobEntity && ((PlayerEntityAccessor)user).getLeadingMobEntities().contains(entity.getUuid())) {
-            this.mob = (MobEntity)entity;
+        if(entity instanceof MobEntity mob && ((MobEntityAccessor)mob).isLeader(user)) {
+            PlayerEntityAccessor accessor = (PlayerEntityAccessor)user;
+             if(!accessor.getSelectedMobs().contains(mob)) {
+                 accessor.addSelectedMob(mob);
+                ((MobEntityAccessor)mob).setSelected(true);
+            } else {
+                 accessor.removeSelectedMob(mob);
+                ((MobEntityAccessor)mob).setSelected(false);
+            }
         }
         return super.useOnEntity(stack, user, entity, hand);
     }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if(mob != null) {
+        for(MobEntity mob: ((PlayerEntityAccessor)context.getPlayer()).getSelectedMobs()) {
             ((MobEntityAccessor)mob).setStayPos(context.getBlockPos());
         }
         return super.useOnBlock(context);

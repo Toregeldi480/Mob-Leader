@@ -1,14 +1,17 @@
 package com.toregeldi.util;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface MobEntityAccessor {
+    boolean isSelected();
+    void setSelected(boolean selected);
+
     int[] getStayPos();
     void setStayPos(BlockPos blockPos);
 
@@ -24,7 +27,7 @@ public interface MobEntityAccessor {
 
     LivingEntity getLeader();
     UUID getLeaderUuid();
-    void setLeader(PlayerEntity player);
+    void setLeader(LivingEntity livingEntity);
     void setLeaderUuid(UUID uuid);
     boolean isLeader(LivingEntity livingEntity);
 }

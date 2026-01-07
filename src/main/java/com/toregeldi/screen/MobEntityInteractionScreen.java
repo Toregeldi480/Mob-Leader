@@ -35,9 +35,15 @@ public class MobEntityInteractionScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         this.clearChildren();
-        int i = 2;
+        int x = 0;
+        int y = 2;
         for(LeadingMobEntityGeneralData data: leadingMobEntities) {
-            context.drawTexture(Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + data.type().toLowerCase().split("\\.")[2] + ".png"), 8, i, 0, 0, 16, 16, 16, 16);
+            String type = data.type().toLowerCase().split("\\.")[2];
+            if(type.equals("vex")) {
+                continue;
+            }
+
+            context.drawTexture(Identifier.of(MobLeader.MOD_ID, ICON_DIRECTORY + type + ".png"), x + 2, y, 0, 0, 16, 16, 16, 16);
 
             Text attack = handleAttackText(data);
             this.addDrawableChild(new ButtonWidget.Builder(attack, button -> {
@@ -51,7 +57,7 @@ public class MobEntityInteractionScreen extends Screen {
                     }
                     ClientPlayNetworking.send(new LeadingMobEntityAttackModePayload(compound));
                 }
-            }).dimensions(30, i, 80, 18).build());
+            }).dimensions(x + 20, y, 60, 18).build());
 
             Text navigation = handleNavigationText(data);
             this.addDrawableChild(new ButtonWidget.Builder(navigation, button -> {
@@ -65,16 +71,80 @@ public class MobEntityInteractionScreen extends Screen {
                     }
                     ClientPlayNetworking.send(new LeadingMobEntityNavigationModePayload(compound));
                 }
-            }).dimensions(112, i, 80, 18).build());
+            }).dimensions(x + 82, y, 60, 18).build());
 
-            String pos = "X:" +  data.posX() + " Y:" + data.posY() + " Z:" + data.posZ();
-            context.drawTextWithShadow(this.textRenderer, pos, 500, i + 4, 0xffffff00);
-
-            String health = data.health() + "/" + data.maxHealth();
-            context.drawTextWithShadow(this.textRenderer, health, this.width - this.textRenderer.getWidth(health), i, 0xffff0000);
-
-            i += 18;
+            y += 18;
+            if(y >= this.height - 38) {
+                y = 2;
+                x += 150;
+            }
         }
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Defense"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("AttackMode", 0);
+                    ClientPlayNetworking.send(new LeadingMobEntityAttackModePayload(compound));
+                }
+            }
+        }).dimensions(0, this.height - 20, 80, 18).build());
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Targeted"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("AttackMode", 1);
+                    ClientPlayNetworking.send(new LeadingMobEntityAttackModePayload(compound));
+                }
+            }
+        }).dimensions(80, this.height - 20, 80, 18).build());
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Aggressive"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("AttackMode", 2);
+                    ClientPlayNetworking.send(new LeadingMobEntityAttackModePayload(compound));
+                }
+            }
+        }).dimensions(160, this.height - 20, 80, 18).build());
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Wander"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("NavigationMode", 0);
+                    ClientPlayNetworking.send(new LeadingMobEntityNavigationModePayload(compound));
+                }
+            }
+        }).dimensions(240, this.height - 20, 80, 18).build());
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Stay"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("NavigationMode", 1);
+                    ClientPlayNetworking.send(new LeadingMobEntityNavigationModePayload(compound));
+                }
+            }
+        }).dimensions(320, this.height - 20, 80, 18).build());
+
+        this.addDrawableChild(new ButtonWidget.Builder(Text.of("All Follow"), button -> {
+            if(this.player.getWorld().isClient) {
+                for(LeadingMobEntityGeneralData data: leadingMobEntities) {
+                    NbtCompound compound = new NbtCompound();
+                    compound.putUuid("UUID", data.uuid());
+                    compound.putInt("NavigationMode", 2);
+                    ClientPlayNetworking.send(new LeadingMobEntityNavigationModePayload(compound));
+                }
+            }
+        }).dimensions(400, this.height - 20, 80, 18).build());
     }
 
     @Override

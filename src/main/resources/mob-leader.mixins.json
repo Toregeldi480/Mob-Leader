@@ -3,10 +3,18 @@
 	"package": "com.toregeldi.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"ElderGuardianEntityMixin",
+		"EntityMixin",
+		"EvokerSummonVexGoalMixin",
+		"GhastEntityMixin",
+		"HoglinBrainMixin",
 		"LivingEntityMixin",
+		"MinecraftClientMixin",
 		"MobEntityMixin",
 		"PlayerEntityMixin",
-		"SlimeEntityMixin"
+		"SlimeEntityMixin",
+		"StatusEffectUtilMixin",
+		"WardenEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

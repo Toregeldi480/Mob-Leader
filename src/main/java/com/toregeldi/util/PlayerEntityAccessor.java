@@ -1,5 +1,6 @@
 package com.toregeldi.util;
 
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 
 import java.util.List;
@@ -9,17 +10,17 @@ public interface PlayerEntityAccessor {
     boolean checkArmor(List<Item> armor);
     List<UUID> getLeadingMobEntities();
     void addLeadingMobEntity(UUID uuid, int weight);
-    void removeLeadingMobEntity(UUID uuid);
+    void removeLeadingMobEntity(UUID uuid, int weight);
     void clearLeadingMobEntities();
+
+    List<MobEntity> getSelectedMobs();
+    void addSelectedMob(MobEntity mob);
+    void removeSelectedMob(MobEntity mob);
 
     int getLeadingMobEntityCapacity();
     void setLeadingMobEntityCapacity(int capacity);
-    void changeLeadingMobEntityCapacity(int capacity);
 
     boolean canLeadMobEntity(int weight);
-
-    int getLeadingMobEntityWeight();
-    void setLeadingMobEntityWeight(int weight);
 
     int getLeadingMobEntityWeightUsage();
     void setLeadingMobEntityWeightUsage(int value);

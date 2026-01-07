@@ -40,17 +40,30 @@ public class MobLeader implements ModInitializer {
 		ModItems.initialize();
 		ModItemGroups.initialize();
 
+		addMaterialToLootTable(EntityType.BLAZE, ModItems.BLAZE_MATERIAL);
 		addMaterialToLootTable(EntityType.BOGGED, ModItems.BOGGED_MATERIAL);
+		addMaterialToLootTable(EntityType.BREEZE, ModItems.BREEZE_MATERIAL);
 		addMaterialToLootTable(EntityType.CAVE_SPIDER, ModItems.CAVE_SPIDER_MATERIAL);
 		addMaterialToLootTable(EntityType.CREEPER, ModItems.CREEPER_MATERIAL);
 		addMaterialToLootTable(EntityType.DROWNED, ModItems.DROWNED_MATERIAL);
+		addMaterialToLootTable(EntityType.ELDER_GUARDIAN, ModItems.OCEAN_STAR, true);
+		addMaterialToLootTable(EntityType.ENDER_DRAGON, ModItems.END_STAR, true);
 		addMaterialToLootTable(EntityType.ENDERMAN, ModItems.ENDERMAN_MATERIAL);
 		addMaterialToLootTable(EntityType.EVOKER, ModItems.EVOKER_MATERIAL);
+		addMaterialToLootTable(EntityType.GHAST, ModItems.GHAST_MATERIAL);
 		addMaterialToLootTable(EntityType.HUSK, ModItems.HUSK_MATERIAL);
+		addMaterialToLootTable(EntityType.ILLUSIONER, ModItems.OVERWORLD_STAR, true);
+		addMaterialToLootTable(EntityType.MAGMA_CUBE, ModItems.MAGMACUBE_MATERIAL);
+		addMaterialToLootTable(EntityType.PILLAGER, ModItems.PILLAGER_MATERIAL);
 		addMaterialToLootTable(EntityType.SKELETON, ModItems.SKELETON_MATERIAL);
+		addMaterialToLootTable(EntityType.SLIME, ModItems.SLIME_MATERIAL);
+		addMaterialToLootTable(EntityType.SPIDER, ModItems.SPIDER_MATERIAL);
+		addMaterialToLootTable(EntityType.STRAY, ModItems.STRAY_MATERIAL);
 		addMaterialToLootTable(EntityType.VINDICATOR, ModItems.VINDICATOR_MATERIAL);
+		addMaterialToLootTable(EntityType.WARDEN, ModItems.CAVE_STAR, true);
 		addMaterialToLootTable(EntityType.WITHER_SKELETON, ModItems.WITHER_SKELETON_MATERIAL);
 		addMaterialToLootTable(EntityType.ZOMBIE, ModItems.ZOMBIE_MATERIAL);
+		addMaterialToLootTable(EntityType.ZOMBIE_VILLAGER, ModItems.ZOMBIE_MATERIAL);
 
 		PayloadTypeRegistry.playS2C().register(LeadingMobEntityWeightUsagePayload.ID, LeadingMobEntityWeightUsagePayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) ->
@@ -75,13 +88,8 @@ public class MobLeader implements ModInitializer {
 			if(((ServerWorld)player.getWorld()).getEntity(uuid) instanceof LivingEntity livingEntity) {
 				MobEntityAccessor accessor = (MobEntityAccessor)(MobEntity)livingEntity;
 				compound.putString("EntityType", livingEntity.getType().toString());
-				compound.putFloat("Health", livingEntity.getHealth());
-				compound.putFloat("MaxHealth", livingEntity.getMaxHealth());
 				compound.putInt("AttackMode", accessor.getAttackMode());
-				compound.putInt("NavigationMode", accessor.getNavigationMode());
-				compound.putDouble("PosX", Math.floor(livingEntity.getPos().x));
-				compound.putDouble("PosY", Math.floor(livingEntity.getPos().y));
-				compound.putDouble("PosZ", Math.floor(livingEntity.getPos().z));
+				compound.putInt("NavigationMode", accessor.getNavigationMode());;
 			}
 			list.add(compound);
 		});
@@ -95,7 +103,19 @@ public class MobLeader implements ModInitializer {
 			if(source.isBuiltin() && entityType.getLootTableId().equals(key)) {
 				LootPool.Builder poolBuilder = LootPool.builder()
 						.rolls(ConstantLootNumberProvider.create(1))
-						.conditionally(RandomChanceLootCondition.builder(0.01f))
+						.conditionally(RandomChanceLootCondition.builder(0.25f))
+						.with(ItemEntry.builder(material))
+						.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f,1.0f)));
+				tableBuilder.pool(poolBuilder);
+			}
+		});
+	}
+
+	private static void addMaterialToLootTable(EntityType entityType, Item material, boolean boss) {
+		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+			if(source.isBuiltin() && entityType.getLootTableId().equals(key)) {
+				LootPool.Builder poolBuilder = LootPool.builder()
+						.rolls(ConstantLootNumberProvider.create(1))
 						.with(ItemEntry.builder(material))
 						.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f,1.0f)));
 				tableBuilder.pool(poolBuilder);
