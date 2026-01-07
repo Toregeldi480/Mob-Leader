@@ -42,7 +42,7 @@ public class MobLeader implements ModInitializer {
 
 		addMaterialToLootTable(EntityType.BLAZE, ModItems.BLAZE_MATERIAL);
 		addMaterialToLootTable(EntityType.BOGGED, ModItems.BOGGED_MATERIAL);
-		addMaterialToLootTable(EntityType.BREEZE, ModItems.BREEZE_MATERIAL);
+//		addMaterialToLootTable(EntityType.BREEZE, ModItems.BREEZE_MATERIAL);
 		addMaterialToLootTable(EntityType.CAVE_SPIDER, ModItems.CAVE_SPIDER_MATERIAL);
 		addMaterialToLootTable(EntityType.CREEPER, ModItems.CREEPER_MATERIAL);
 		addMaterialToLootTable(EntityType.DROWNED, ModItems.DROWNED_MATERIAL);

@@ -26,10 +26,10 @@ public class ModItemGroups {
                 entries.add(ModItems.BOGGED_LEGGINGS);
                 entries.add(ModItems.BOGGED_BOOTS);
 
-                entries.add(ModItems.BREEZE_HELMET);
-                entries.add(ModItems.BREEZE_CHESTPLATE);
-                entries.add(ModItems.BREEZE_LEGGINGS);
-                entries.add(ModItems.BREEZE_BOOTS);
+//                entries.add(ModItems.BREEZE_HELMET);
+//                entries.add(ModItems.BREEZE_CHESTPLATE);
+//                entries.add(ModItems.BREEZE_LEGGINGS);
+//                entries.add(ModItems.BREEZE_BOOTS);
 
                 entries.add(ModItems.CAVE_SPIDER_HELMET);
                 entries.add(ModItems.CAVE_SPIDER_CHESTPLATE);

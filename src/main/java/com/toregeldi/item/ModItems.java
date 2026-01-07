@@ -21,11 +21,11 @@ public class ModItems {
     public static final Item BOGGED_BOOTS = register(new ArmorItem(ModArmorMaterials.BOGGED, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "bogged_boots");
     public static final Item BOGGED_MATERIAL = register(new Item(new Item.Settings()), "bogged_material");
 
-    public static final Item BREEZE_HELMET = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "breeze_helmet");
-    public static final Item BREEZE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "breeze_chestplate");
-    public static final Item BREEZE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "breeze_leggings");
-    public static final Item BREEZE_BOOTS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "breeze_boots");
-    public static final Item BREEZE_MATERIAL = register(new Item(new Item.Settings()), "breeze_material");
+//    public static final Item BREEZE_HELMET = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "breeze_helmet");
+//    public static final Item BREEZE_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "breeze_chestplate");
+//    public static final Item BREEZE_LEGGINGS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)), "breeze_leggings");
+//    public static final Item BREEZE_BOOTS = register(new ArmorItem(ModArmorMaterials.BREEZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)), "breeze_boots");
+//    public static final Item BREEZE_MATERIAL = register(new Item(new Item.Settings()), "breeze_material");
 
     public static final Item CAVE_SPIDER_HELMET = register(new ArmorItem(ModArmorMaterials.CAVE_SPIDER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)), "cave_spider_helmet");
     public static final Item CAVE_SPIDER_CHESTPLATE = register(new ArmorItem(ModArmorMaterials.CAVE_SPIDER, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)), "cave_spider_chestplate");

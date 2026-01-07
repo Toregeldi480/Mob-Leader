@@ -43,19 +43,19 @@ public class ModArmorMaterials {
             0.0F,
             0.0F,
             false);
-    public static final RegistryEntry<ArmorMaterial> BREEZE = registerMaterial("breeze",
-            Map.of(
-                    ArmorItem.Type.HELMET, 3,
-                    ArmorItem.Type.CHESTPLATE, 8,
-                    ArmorItem.Type.LEGGINGS, 6,
-                    ArmorItem.Type.BOOTS, 3
-            ),
-            5,
-            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
-            () -> Ingredient.ofItems(ModItems.BREEZE_MATERIAL),
-            0.0F,
-            0.0F,
-            false);
+//    public static final RegistryEntry<ArmorMaterial> BREEZE = registerMaterial("breeze",
+//            Map.of(
+//                    ArmorItem.Type.HELMET, 3,
+//                    ArmorItem.Type.CHESTPLATE, 8,
+//                    ArmorItem.Type.LEGGINGS, 6,
+//                    ArmorItem.Type.BOOTS, 3
+//            ),
+//            5,
+//            SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+//            () -> Ingredient.ofItems(ModItems.BREEZE_MATERIAL),
+//            0.0F,
+//            0.0F,
+//            false);
     public static final RegistryEntry<ArmorMaterial> CAVE_SPIDER = registerMaterial("cave_spider",
             Map.of(
                     ArmorItem.Type.HELMET, 3,

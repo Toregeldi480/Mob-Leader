@@ -34,7 +34,6 @@ public class StatusEffectUtilMixin {
                                 || player.getStatusEffect(registryEntry).isDurationBelow(duration - 1)
                 )
         );
-        MobLeader.LOGGER.info("SOMETHING");
         list.forEach(player -> player.addStatusEffect(new StatusEffectInstance(statusEffectInstance), entity));
         cir.setReturnValue(list);
     }

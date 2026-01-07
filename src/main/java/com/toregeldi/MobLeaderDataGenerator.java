@@ -50,11 +50,11 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
             itemModelGenerator.registerArmor((ArmorItem) ModItems.BOGGED_HELMET);
             itemModelGenerator.register(ModItems.BOGGED_MATERIAL, Models.GENERATED);
 
-            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_BOOTS);
-            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_LEGGINGS);
-            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_CHESTPLATE);
-            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_HELMET);
-            itemModelGenerator.register(ModItems.BREEZE_MATERIAL, Models.GENERATED);
+//            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_BOOTS);
+//            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_LEGGINGS);
+//            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_CHESTPLATE);
+//            itemModelGenerator.registerArmor((ArmorItem) ModItems.BREEZE_HELMET);
+//            itemModelGenerator.register(ModItems.BREEZE_MATERIAL, Models.GENERATED);
 
             itemModelGenerator.registerArmor((ArmorItem) ModItems.CAVE_SPIDER_BOOTS);
             itemModelGenerator.registerArmor((ArmorItem) ModItems.CAVE_SPIDER_LEGGINGS);
@@ -178,7 +178,7 @@ public class MobLeaderDataGenerator implements DataGeneratorEntrypoint {
         public void generate(RecipeExporter recipeExporter) {
             createArmorSet(ModItems.BLAZE_BOOTS, ModItems.BLAZE_LEGGINGS, ModItems.BLAZE_CHESTPLATE, ModItems.BLAZE_HELMET, ModItems.BLAZE_MATERIAL, recipeExporter);
             createArmorSet(ModItems.BOGGED_BOOTS, ModItems.BOGGED_LEGGINGS, ModItems.BOGGED_CHESTPLATE, ModItems.BOGGED_HELMET, ModItems.BOGGED_MATERIAL, recipeExporter);
-            createArmorSet(ModItems.BREEZE_BOOTS, ModItems.BREEZE_LEGGINGS, ModItems.BREEZE_CHESTPLATE, ModItems.BREEZE_HELMET, ModItems.BREEZE_MATERIAL, recipeExporter);
+//            createArmorSet(ModItems.BREEZE_BOOTS, ModItems.BREEZE_LEGGINGS, ModItems.BREEZE_CHESTPLATE, ModItems.BREEZE_HELMET, ModItems.BREEZE_MATERIAL, recipeExporter);
             createArmorSet(ModItems.CAVE_SPIDER_BOOTS, ModItems.CAVE_SPIDER_LEGGINGS, ModItems.CAVE_SPIDER_CHESTPLATE, ModItems.CAVE_SPIDER_HELMET, ModItems.CAVE_SPIDER_MATERIAL, recipeExporter);
             createArmorSet(ModItems.CREEPER_BOOTS, ModItems.CREEPER_LEGGINGS, ModItems.CREEPER_CHESTPLATE, ModItems.CREEPER_HELMET, ModItems.CREEPER_MATERIAL, recipeExporter);
             createArmorSet(ModItems.DROWNED_BOOTS, ModItems.DROWNED_LEGGINGS, ModItems.DROWNED_CHESTPLATE, ModItems.DROWNED_HELMET, ModItems.DROWNED_MATERIAL, recipeExporter);
